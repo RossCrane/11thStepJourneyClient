@@ -1,7 +1,11 @@
 import React from 'react';
 
 const UponAwakening = () => {
-	return <div>{/* Your component code goes here */}</div>;
+	return (
+		<div>
+			<h1>Upon Awakening</h1>
+		</div>
+	);
 };
 
 export default UponAwakening;

@@ -17,13 +17,13 @@ const questions = [
 const ElevenQuestionsForm = () => {
 	const [responses, setResponses] = useState(Array(11).fill(''));
 
-	const handleResponseChange = (index, value) => {
+	const handleResponseChange = (index: number, value: string) => {
 		const newResponses = [...responses];
 		newResponses[index] = value;
 		setResponses(newResponses);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		// Handle form submission here
 	};

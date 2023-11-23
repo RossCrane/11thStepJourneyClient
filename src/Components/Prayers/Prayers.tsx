@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 
-const Accordion = ({ title, content }) => {
-	const [isOpen, setIsOpen] = useState(false);
+interface AccordionProps {
+	title: string;
+	content: string;
+}
+
+const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
+	const [isOpen, setIsOpen] = React.useState(false);
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
