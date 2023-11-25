@@ -1,0 +1,37 @@
+.header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: transparent; /* Set your desired background color */
+	padding: 10px 1.5em;
+	position: sticky;
+	top: 1;
+	max-width: 100%;
+	border: blue 1px solid;
+}
+
+.logo-title-container {
+	display: flex;
+}
+
+.logo {
+	height: 4em;
+	/* padding: 1.5em; */
+	will-change: filter;
+	transition: filter 300ms;
+}
+
+.logo:hover {
+	filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+	filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.header-title {
+	text-align: center;
+	margin: 0; /* Remove default margin */
+	color: blue; /* Set text color */
+	font-size: 1.5em; /* Set font size */
+	padding-left: 0.5em;
+}

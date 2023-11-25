@@ -9,7 +9,7 @@ export interface Question {
 export const elevenQustionsTemplate: Question[] = [
 	{
 		id: 0,
-		question: `When we retire at night we constructively review our day. /n Was I resentful today?`,
+		question: `Was I resentful today?`,
 		// checkboxes: ['Yes', 'No'] save as a boolean Stretch goal,
 		// response: `Variable to store response 1`,
 	},

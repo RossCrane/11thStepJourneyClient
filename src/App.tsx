@@ -1,6 +1,7 @@
 import './App.css';
 import { ElevenQuestionsForm } from './Components/ElevenQuestionsForm/ElevenQuestionsForm';
-import { elevenQustionsTemplate } from './Utils/11Questions';
+import { elevenQustionsTemplate } from './Utils/ElevenQuestionsTemplate';
+import Header from './Components/Header/Header';
 
 const handleStepFormSubmit = (formData: any) => {
 	console.log(formData, 'form data here after submission');
@@ -8,10 +9,14 @@ const handleStepFormSubmit = (formData: any) => {
 
 function App() {
 	return (
-		<ElevenQuestionsForm
-			handleStepFormSubmit={handleStepFormSubmit}
-			steps={elevenQustionsTemplate}
-		/>
+		<div className="outer-container">
+			<Header />
+			<p>When we retire at night we constructively review our day.</p>
+			<ElevenQuestionsForm
+				handleStepFormSubmit={handleStepFormSubmit}
+				steps={elevenQustionsTemplate}
+			/>
+		</div>
 	);
 }
 
