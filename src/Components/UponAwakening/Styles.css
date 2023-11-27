@@ -1,0 +1,33 @@
+.upon-awakening-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+.upon-awakening-title {
+	font-size: 2.5rem;
+	font-weight: 600;
+	margin-bottom: 0;
+	height: 3%;
+	text-align: center;
+}
+
+.upon-awakening-text {
+	box-sizing: border-box;
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-bottom: 1rem;
+	overflow-y: auto;
+	height: 95%;
+	width: 100%;
+	text-align: start;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	padding-left: 4rem;
+	padding-right: 4rem;
+}

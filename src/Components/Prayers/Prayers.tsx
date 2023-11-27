@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { accordionPrayerData } from '../../Utils/PrayersData';
+import './Styles.css';
 
-interface AccordionProps {
+interface IAccordionProps {
 	title: string;
-	content: string;
+	prayer: string;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
-	const [isOpen, setIsOpen] = React.useState(false);
+const Accordion: React.FC<IAccordionProps> = ({ title, prayer }) => {
+	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
@@ -14,14 +16,28 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
 
 	return (
 		<div className="accordion">
-			<h1>Prayers</h1>
-			<div className="accordion-header" onClick={toggleAccordion}>
-				<h3>{title}</h3>
-				<span>{isOpen ? '-' : '+'}</span>
+			<div className="accordion-title" onClick={toggleAccordion}>
+				<h3 className="accortian-title-text">{title}</h3>
+				{/* <span>{isOpen ? '-' : '+'}</span> */}
 			</div>
-			{isOpen && <div className="accordion-content">{content}</div>}
+			{isOpen && <div className="accordion-content">{prayer}</div>}
 		</div>
 	);
 };
 
-export default Accordion;
+const Prayers: React.FC = () => {
+	return (
+		<div className="prayer-accordion">
+			<h1>Prayers</h1>
+			{accordionPrayerData.map((prayerData, index) => (
+				<Accordion
+					key={index}
+					title={prayerData.title}
+					prayer={prayerData.prayer}
+				/>
+			))}
+		</div>
+	);
+};
+
+export default Prayers;

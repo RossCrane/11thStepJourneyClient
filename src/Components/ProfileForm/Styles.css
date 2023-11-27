@@ -1,0 +1,39 @@
+.profile-form-container {
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-control {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 16px;
+}
+
+.form-checkbox {
+	margin-right: 5px;
+}
+
+.anonymous-note {
+	color: #888;
+}
+
+.btn-save {
+	background-color: #007bff;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.btn-save:hover {
+	background-color: #0056b3;
+}
