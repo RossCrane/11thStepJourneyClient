@@ -1,17 +1,24 @@
 .header-container {
+	box-sizing: border-box;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: transparent; /* Set your desired background color */
+	background-color: transparent;
 	padding: 10px 1.5em;
 	position: sticky;
-	top: 1;
 	max-width: 100%;
 	border: blue 1px solid;
+	max-height: 7vh;
 }
 
 .logo-title-container {
 	display: flex;
+}
+
+.logo-title-nav-container {
+	display: flex;
+	gap: 2em;
+	align-items: center;
 }
 
 .logo {

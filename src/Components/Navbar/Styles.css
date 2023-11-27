@@ -1,0 +1,50 @@
+.icons {
+	height: 2.5em;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	display: flex; /* Display list items horizontally */
+}
+
+li {
+	margin-right: 20px; /* Add some space between items */
+}
+
+.tooltip-container {
+	position: relative;
+	display: inline-block;
+}
+
+.icons {
+	max-width: 100px; /* Adjust the maximum width of icons as needed */
+}
+
+.tooltip-text {
+	visibility: hidden;
+	width: auto;
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.8
+	); /* Customize the tooltip background color */
+	color: white; /* Customize the tooltip text color */
+	text-align: center;
+	border-radius: 5px; /* Add rounded corners to the tooltip */
+	padding: 5px 10px; /* Add padding to the tooltip */
+	position: absolute;
+	z-index: 1;
+	bottom: -30px; /* Adjust the distance from the icon (e.g., -30px or as needed) */
+	left: 50%;
+	transform: translateX(-50%);
+	white-space: nowrap;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+	visibility: visible;
+	opacity: 1;
+}

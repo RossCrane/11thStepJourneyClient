@@ -12,7 +12,17 @@ body {
 }
 
 .outer-container {
+	box-sizing: content-box;
 	max-width: 1260px;
 	background-color: transparent;
 	height: 100vh;
+}
+
+.inner-content-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 89vh;
 }
