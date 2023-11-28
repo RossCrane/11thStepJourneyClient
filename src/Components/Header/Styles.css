@@ -9,6 +9,7 @@
 	max-width: 100%;
 	border: blue 1px solid;
 	max-height: 7vh;
+	min-height: 70px;
 }
 
 .logo-title-container {

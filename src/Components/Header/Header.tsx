@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 import Navbar from '../Navbar/Navbar';
 
 const Header = () => {
-	const isLoggedIn = false;
+	const isLoggedIn = true;
 
 	return (
 		<header className="header-container">

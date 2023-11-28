@@ -1,0 +1,70 @@
+.gratitude-list-container {
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 10px;
+	/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+	text-align: center;
+}
+
+h2 {
+	color: #333;
+}
+
+.gratitude-item {
+	margin-bottom: 10px;
+}
+
+.gratitude-item-number {
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+input[type='text'] {
+	width: 80%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+.gratitude-remove-item {
+	background-color: #ff0000;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 5px 10px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.gratitude-remove-item:hover {
+	background-color: #cc0000;
+}
+
+.gratitude-add-gratitude {
+	background-color: #008000;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.gratitude-add-gratitude:hover {
+	background-color: #006600;
+}
+
+.gratitude-save-button {
+	background-color: #333;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+.gratitude-save-button:hover {
+	background-color: #111;
+}

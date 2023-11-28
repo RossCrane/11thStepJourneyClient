@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Styles.css';
 import bell from '../../assets/bell.svg';
 import loginIcon from '../../assets/loginicon.svg';
@@ -63,8 +64,14 @@ const HeaderAccount: React.FC<IHeaderAccountProps> = ({ isLoggedIn }) => {
 				{isLoggedIn && (
 					<li>
 						<div className="tooltip-container">
-							<img className="icons" src={profileIcon} alt="Account Details" />
-							<span className="tooltip-text">Account Details</span>
+							<Link to="/account">
+								<img
+									className="icons"
+									src={profileIcon}
+									alt="Account Details"
+								/>
+								<span className="tooltip-text">Account Details</span>
+							</Link>
 						</div>
 					</li>
 				)}
@@ -73,8 +80,10 @@ const HeaderAccount: React.FC<IHeaderAccountProps> = ({ isLoggedIn }) => {
 				{isLoggedIn && (
 					<li>
 						<div className="tooltip-container">
-							<img className="icons" src={logoutIcon} alt="Log Out" />
-							<span className="tooltip-text">Log Out</span>
+							<Link to="/login">
+								<img className="icons" src={logoutIcon} alt="Log Out" />
+								<span className="tooltip-text">Log Out</span>
+							</Link>
 						</div>
 					</li>
 				)}
@@ -83,8 +92,10 @@ const HeaderAccount: React.FC<IHeaderAccountProps> = ({ isLoggedIn }) => {
 				{!isLoggedIn && (
 					<li>
 						<div className="tooltip-container">
-							<img className="icons" src={loginIcon} alt="Log In" />
-							<span className="tooltip-text">Log In</span>
+							<Link to="/login">
+								<img className="icons" src={loginIcon} alt="Log In" />
+								<span className="tooltip-text">Log In</span>
+							</Link>
 						</div>
 					</li>
 				)}
