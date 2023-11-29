@@ -11,7 +11,9 @@ const Accordion: React.FC<IAccordionProps> = ({ title, prayer }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleAccordion = () => {
-		setIsOpen(!isOpen);
+		// Learn to recognize this pattern and change it to the one below.
+		// setIsOpen(!isOpen);
+		setIsOpen((currOpen) => !currOpen);
 	};
 
 	return (

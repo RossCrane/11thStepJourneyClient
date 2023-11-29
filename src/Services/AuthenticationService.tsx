@@ -7,7 +7,7 @@ if (!BASE_URL) {
 }
 
 interface RegisterResponse {
-	// Define your response structure here later
+	token: string;
 }
 
 // change any later

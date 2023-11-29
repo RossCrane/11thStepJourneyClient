@@ -17,6 +17,11 @@ interface RegisterForm {
 	token?: string;
 }
 
+interface RegisterResponse {
+	// ... other properties ...
+	token: string;
+}
+
 function LoginRegister() {
 	const [loginForm, setLoginForm] = useState<LoginForm>({
 		loginEmail: '',
@@ -51,14 +56,12 @@ function LoginRegister() {
 
 	const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// Add your login logic here
+
 		try {
-			// Login logic using AuthenticationService
 			const response = await apiServiceJWT.login({
 				email: loginForm.loginEmail,
 				password: loginForm.loginPassword,
 			});
-			// Update authentication state on successful login
 			console.log(response);
 			auth.login(response.token, () => {
 				console.log('Logged in successfully');
@@ -72,38 +75,36 @@ function LoginRegister() {
 	const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		// Email validation
 		if (!validateEmail(registerForm.registerEmail)) {
 			setRegisterForm({
 				...registerForm,
 				emailError: 'Invalid email format',
-				passwordError: '', // Clear any previous password error
+				passwordError: '',
 			});
 			return;
 		}
 
-		// Password confirmation validation
 		if (registerForm.registerPassword !== registerForm.confirmPassword) {
 			setRegisterForm({
 				...registerForm,
-				emailError: '', // Clear any previous email error
+				emailError: '',
 				passwordError: 'Passwords do not match',
 			});
 			return;
 		}
 
-		// Add your register logic here
 		try {
-			// Register logic using AuthenticationService
 			const response = await apiServiceJWT.register({
 				email: registerForm.registerEmail,
 				password: registerForm.registerPassword,
 			});
-			// Update authentication state on successful registration
-			// TODO: check back
-			auth.login(response.token, () => {
-				console.log('Registered and logged in successfully');
-			});
+			if (response.token) {
+				auth.login(response.token, () => {
+					console.log('Registered and logged in successfully');
+				});
+			} else {
+				// Handle case where token is not present in response
+			}
 		} catch (error) {
 			console.error('Registration failed:', error);
 		}
@@ -146,6 +147,7 @@ function LoginRegister() {
 					onChange={handleRegisterChange}
 					required
 				/>
+				{/* add toastify here */}
 				{registerForm.passwordError && (
 					<p className="error">{registerForm.passwordError}</p>
 				)}
