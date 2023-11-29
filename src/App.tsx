@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import { AuthProvider } from './Context/AuthContext';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import { ElevenQuestionsForm } from './Components/ElevenQuestionsForm/ElevenQuestionsForm';
@@ -45,33 +46,40 @@ const App: React.FC = () => {
 		console.log(formData);
 	};
 	return (
-		<div className="outer-container">
-			<Header />
-			<div className="inner-content-container">
-				<Routes>
-					<Route
-						path="/"
-						element={
-							<ElevenQuestionsForm
-								handleStepFormSubmit={handleStepFormSubmit}
-								steps={elevenQustionsTemplate}
-							/>
-						}
-					/>
-					<Route path="/login" element={<LoginRegister />} />
-					{/* Should be a protected route */}
-					<Route
-						path="/account"
-						element={<ProfileForm profileData={profileData} onSave={onSave} />}
-					/>
-					<Route path="/prayers" element={<Prayers />} />
-					<Route path="/uponawakening" element={<UponAwakening />} />
-					<Route path="/sobrietycalculator" element={<SobrietyCalculator />} />
-					<Route path="/creategratitude" element={<GratitudeList />} />
-				</Routes>
+		<AuthProvider>
+			<div className="outer-container">
+				<Header />
+				<div className="inner-content-container">
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<ElevenQuestionsForm
+									handleStepFormSubmit={handleStepFormSubmit}
+									steps={elevenQustionsTemplate}
+								/>
+							}
+						/>
+						<Route path="/login" element={<LoginRegister />} />
+						{/* Should be a protected route */}
+						<Route
+							path="/account"
+							element={
+								<ProfileForm profileData={profileData} onSave={onSave} />
+							}
+						/>
+						<Route path="/prayers" element={<Prayers />} />
+						<Route path="/uponawakening" element={<UponAwakening />} />
+						<Route
+							path="/sobrietycalculator"
+							element={<SobrietyCalculator />}
+						/>
+						<Route path="/creategratitude" element={<GratitudeList />} />
+					</Routes>
+				</div>
+				<Footer />
 			</div>
-			<Footer />
-		</div>
+		</AuthProvider>
 	);
 };
 

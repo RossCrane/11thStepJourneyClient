@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import apiServiceJWT from '../../Services/AuthenticationService';
+import { useAuth } from '../../Context/AuthContext';
 import './Styles.css';
 
 interface LoginForm {
@@ -12,6 +14,7 @@ interface RegisterForm {
 	confirmPassword: string;
 	emailError: string;
 	passwordError: string;
+	token?: string;
 }
 
 function LoginRegister() {
@@ -27,6 +30,8 @@ function LoginRegister() {
 		emailError: '',
 		passwordError: '',
 	});
+
+	const auth = useAuth();
 
 	const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -44,13 +49,27 @@ function LoginRegister() {
 		});
 	};
 
-	const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// Add your login logic here
+		try {
+			// Login logic using AuthenticationService
+			const response = await apiServiceJWT.login({
+				email: loginForm.loginEmail,
+				password: loginForm.loginPassword,
+			});
+			// Update authentication state on successful login
+			console.log(response);
+			auth.login(response.token, () => {
+				console.log('Logged in successfully');
+			});
+		} catch (error) {
+			console.error('Login failed:', error);
+		}
 		console.log('Login form submitted:', loginForm);
 	};
 
-	const handleRegisterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		// Email validation
@@ -74,6 +93,20 @@ function LoginRegister() {
 		}
 
 		// Add your register logic here
+		try {
+			// Register logic using AuthenticationService
+			const response = await apiServiceJWT.register({
+				email: registerForm.registerEmail,
+				password: registerForm.registerPassword,
+			});
+			// Update authentication state on successful registration
+			// TODO: check back
+			auth.login(response.token, () => {
+				console.log('Registered and logged in successfully');
+			});
+		} catch (error) {
+			console.error('Registration failed:', error);
+		}
 		console.log('Register form submitted:', registerForm);
 	};
 

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { createGratitudeEntry } from '../../Services/GratitudeService';
 import './Styles.css';
 
 interface IGratitudeListProps {
-	onSave: (items: string[]) => void;
+	onSave: (items: string[]) => void; // Assuming this is for post-save actions
 }
 
 const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
-	const [items, setItems] = useState<string[]>(['']); // Initialize with an empty item
+	const [items, setItems] = useState<string[]>(['']);
 
 	const handleItemChange = (index: number, newValue: string) => {
 		const newItems = [...items];
@@ -26,9 +27,17 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		setItems(newItems);
 	};
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		const filteredItems = items.filter((item) => item.trim() !== '');
-		onSave(filteredItems);
+		try {
+			const userId = 'your-user-id'; // Replace with actual user ID
+			const savedEntry = await createGratitudeEntry(userId, filteredItems);
+			console.log('Gratitude Entry Saved:', savedEntry);
+			onSave(filteredItems); // Call onSave prop function, if needed
+		} catch (error) {
+			console.error('Error saving gratitude entry:', error);
+			// Handle save error
+		}
 	};
 
 	return (

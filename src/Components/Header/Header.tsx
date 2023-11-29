@@ -5,7 +5,8 @@ import logo from '../../assets/logo.png';
 import Navbar from '../Navbar/Navbar';
 
 const Header = () => {
-	const isLoggedIn = true;
+	// old code for manual login/logout
+	//const isLoggedIn = false;
 
 	return (
 		<header className="header-container">
@@ -20,7 +21,7 @@ const Header = () => {
 				</div>
 				<Navbar />
 			</div>
-			<HeaderAccount isLoggedIn={isLoggedIn} />
+			<HeaderAccount />
 		</header>
 	);
 };
