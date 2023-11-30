@@ -79,9 +79,44 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		}
 	};
 
+	const formatGratitudesForClipboard = () => {
+		if (items.length === 0) {
+			return 'No current gratitude entries to copy.';
+		}
+
+		let formattedText = 'I am grateful for:\n';
+		const currentDate = new Date().toLocaleString();
+		formattedText += `\n${currentDate}\n`;
+
+		items.forEach((item, index) => {
+			if (item.trim() !== '') {
+				formattedText += `${index + 1}. ${item}\n`;
+			}
+		});
+
+		return formattedText;
+	};
+
+	const copyGratitudesToClipboard = () => {
+		const textToCopy = formatGratitudesForClipboard();
+		navigator.clipboard.writeText(textToCopy).then(
+			() => {
+				console.log('Current gratitudes copied to clipboard successfully.');
+				// Toastify
+			},
+			(err) => {
+				console.error('Could not copy text: ', err);
+				// Toastify
+			}
+		);
+	};
+
 	return (
 		<div className="gratitude-list-container">
 			<button onClick={toggleModal}>View History</button>
+			<button onClick={copyGratitudesToClipboard}>
+				Copy Gratitudes to Clipboard
+			</button>
 			<GratitudeHistoryModal
 				isOpen={isModalOpen}
 				onClose={toggleModal}
