@@ -1,22 +1,20 @@
 import React from 'react';
 
-interface GratitudeHistoryEntry {
-	gratitudeNumber: number;
-	gratitude: string;
+interface QuestionResponseEntry {
+	questionNumber: number;
+	response: string;
 	date: string;
 }
 
-interface GratitudeHistoryModalProps {
+interface ElevenQuestionsHistoryModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	history: GratitudeHistoryEntry[];
+	history: QuestionResponseEntry[];
 }
 
-const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
-	isOpen,
-	onClose,
-	history,
-}) => {
+const ElevenQuestionsHistoryModal: React.FC<
+	ElevenQuestionsHistoryModalProps
+> = ({ isOpen, onClose, history }) => {
 	return (
 		<div
 			style={{
@@ -36,7 +34,7 @@ const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
 				<div key={index}>
 					<div>Date: {entry.date}</div>
 					<div>
-						Item {entry.gratitudeNumber}: {entry.gratitude}
+						Question {entry.questionNumber}: {entry.response}
 					</div>
 				</div>
 			))}
@@ -44,4 +42,4 @@ const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
 	);
 };
 
-export default GratitudeHistoryModal;
+export default ElevenQuestionsHistoryModal;

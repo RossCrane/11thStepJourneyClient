@@ -52,7 +52,7 @@ import profileIcon from '../../assets/profileicon.svg';
 // ];
 
 const HeaderAccount: React.FC = () => {
-	const { authenticated, setAuthenticated, logout } = useAuth(); // Use the context
+	const { authenticated, setAuthenticated, logout } = useAuth();
 
 	useEffect(() => {
 		const checkAuthentication = async () => {

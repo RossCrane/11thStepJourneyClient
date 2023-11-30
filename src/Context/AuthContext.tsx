@@ -16,7 +16,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	const [authenticated, setAuthenticated] = useState(false);
 
 	// I think I need to add a check to see if the user is already logged in
-
+	// can remove extra logic here and move it to the serveices in the future.
 	const login = (token: string, cb: () => void) => {
 		// Include token parameter
 		// console.log(token);

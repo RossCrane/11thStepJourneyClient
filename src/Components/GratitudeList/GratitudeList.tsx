@@ -16,10 +16,9 @@ interface GratitudeItem {
 }
 
 interface GratitudeHistoryEntry {
-	// Define the structure here based on your API response
 	gratitudeNumber: number;
 	gratitude: string;
-	date: string; // Assuming the date is included and is a string
+	date: string;
 }
 
 const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
@@ -42,17 +41,12 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 	};
 
 	const handleItemChange = (index: number, newValue: string) => {
-		const newItems = [...items];
-		newItems[index] = newValue;
-		setItems(newItems);
+		setItems((currItems) => {
+			const newItems = [...currItems];
+			newItems[index] = newValue;
+			return newItems;
+		});
 	};
-
-	// ask santiago about this
-	// setItems((currItems) => {
-	// 	const newItems = [...items];
-	// 	newItems[index] = newValue;
-	// 	return newItems;
-	// });
 
 	const handleAddItem = () => {
 		if (items.length < 10) {
