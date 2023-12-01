@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import './Styles.css';
 import { getSoberDate, saveSoberDate } from '../../Services/SoberDateService';
+import { useAuth } from '../../Context/AuthContext';
 
 interface ISobrietyCalculatorProps {
 	onDateChange?: (newDate: string) => void;
@@ -12,17 +13,17 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 }) => {
 	const [currentTime, setCurrentTime] = useState(moment());
 	const [inputDate, setInputDate] = useState<string>('1935-06-10');
+	const { authenticated } = useAuth();
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentTime(moment());
-		}, 1000);
+		setCurrentTime(moment());
 
 		const fetchSoberDate = async () => {
 			try {
 				const fetchedDate = await getSoberDate();
 				if (fetchedDate) {
-					setInputDate(fetchedDate);
+					const formattedDate = moment.utc(fetchedDate).format('YYYY-MM-DD');
+					setInputDate(formattedDate);
 				}
 			} catch (error) {
 				console.error('Error fetching sober date:', error);
@@ -30,8 +31,6 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 		};
 
 		fetchSoberDate();
-
-		return () => clearInterval(interval);
 	}, []);
 
 	const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +46,7 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 			if (inputDate) {
 				const response = await saveSoberDate(inputDate);
 				console.log('Sober date saved:', response);
-				// You can add more logic here if needed, like notifying the user of success
 			} else {
-				// Handle case where no date is selected
 				console.error('No date selected');
 			}
 		} catch (error) {
@@ -58,7 +55,6 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 		}
 	};
 
-	// Parse the input date using moment.js
 	const startDate = inputDate ? moment(inputDate) : null;
 	const timeDifference = startDate
 		? moment.duration(currentTime.diff(startDate))
@@ -74,9 +70,11 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 				onChange={handleChangeDate}
 				placeholder="YYYY-MM-DD"
 			/>
-			<button className="save-date-button" onClick={handleSaveDate}>
-				Save Date
-			</button>
+			{authenticated && (
+				<button className="save-date-button" onClick={handleSaveDate}>
+					Save Date
+				</button>
+			)}
 			<h2>
 				{inputDate === '1935-06-10'
 					? 'AA has been around for:'

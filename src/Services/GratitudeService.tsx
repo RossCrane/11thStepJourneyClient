@@ -10,16 +10,25 @@ interface GratitudeItem {
 	gratitude: string;
 }
 
-interface GratitudeHistoryEntry {
-	gratitudeNumber: number;
-	gratitude: string;
-	date: string; // Assuming date is a string
+interface GratitudeHistoryResponse {
+	success: boolean;
+	data: GratitudeHistoryEntry[];
 }
 
-// this is not working and I have not figured out why yet. has to do with authentication.
+interface GratitudeHistoryEntry {
+	_id: string;
+	userId: string;
+	items: {
+		gratitudeNumber: number;
+		gratitude: string;
+		_id: string;
+	}[];
+	date: string;
+}
+
 const createGratitudeEntry = async (items: GratitudeItem[]) => {
 	console.log('createGratitudeEntry', items);
-	const token = localStorage.getItem('token'); // Get the token from local storage
+	const token = localStorage.getItem('token');
 	console.log('token', token);
 	if (!token) {
 		throw new Error('No authorization token found');
@@ -36,23 +45,19 @@ const createGratitudeEntry = async (items: GratitudeItem[]) => {
 		body: JSON.stringify({ items }),
 	});
 	const data = await response.json();
-	console.log('data', data);
 	if (!response.ok) {
 		throw new Error(data.message || 'Could not create gratitude entry');
 	}
 	return data;
 };
 
-// Function to fetch gratitude history
-const fetchGratitudeHistory = async (): Promise<GratitudeHistoryEntry[]> => {
+const fetchGratitudeHistory = async (): Promise<GratitudeHistoryResponse> => {
 	const token = localStorage.getItem('token');
 	if (!token) {
 		throw new Error('No authorization token found');
 	}
 
-	// come back to this
-	const response = await fetch(`${BASE_URL}/gratitude/history`, {
-		// Adjust the endpoint as per your backend URL
+	const response = await fetch(`${BASE_URL}/gratitude`, {
 		method: 'GET',
 		credentials: 'include',
 		mode: 'cors',
@@ -62,6 +67,7 @@ const fetchGratitudeHistory = async (): Promise<GratitudeHistoryEntry[]> => {
 	});
 
 	const data = await response.json();
+	console.log('data', data);
 	if (!response.ok) {
 		throw new Error(data.message || 'Could not fetch gratitude history');
 	}

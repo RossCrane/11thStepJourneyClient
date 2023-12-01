@@ -1,43 +1,56 @@
 import React from 'react';
+import './Styles.css';
+import { elevenQuestionsTemplate } from '../../Utils/ElevenQuestionsTemplate';
 
-interface QuestionResponseEntry {
+interface QuestionResponse {
 	questionNumber: number;
 	response: string;
+}
+
+interface HistoryEntry {
+	responses: QuestionResponse[];
 	date: string;
 }
 
 interface ElevenQuestionsHistoryModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	history: QuestionResponseEntry[];
+	history: HistoryEntry[];
 }
 
 const ElevenQuestionsHistoryModal: React.FC<
 	ElevenQuestionsHistoryModalProps
 > = ({ isOpen, onClose, history }) => {
+	// Function to find the question text by ID
+	const findQuestionById = (id: number) => {
+		const question = elevenQuestionsTemplate.find((q) => q.id === id);
+		return question ? question.question : 'Unknown Question';
+	};
+
 	return (
-		<div
-			style={{
-				display: isOpen ? 'block' : 'none',
-				position: 'fixed',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-				backgroundColor: 'white',
-				padding: '20px',
-				borderRadius: '10px',
-				boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-			}}
-		>
+		<div className={`question-history-modal ${isOpen ? 'show' : ''}`}>
 			<button onClick={onClose}>Close</button>
-			{history.map((entry, index) => (
-				<div key={index}>
-					<div>Date: {entry.date}</div>
-					<div>
-						Question {entry.questionNumber}: {entry.response}
-					</div>
-				</div>
-			))}
+			<div className="history-content">
+				{Array.isArray(history) &&
+					history.map((entry, index) => (
+						<div key={index} className="history-entry">
+							<div className="date">
+								Date: {new Date(entry.date).toLocaleDateString()}
+							</div>
+							<div className="responses">
+								{entry.responses.map((response, idx) => (
+									<div key={idx} className="response">
+										<div className="question">
+											{findQuestionById(response.questionNumber)}
+										</div>
+										{/* might want to change how this looks later */}
+										<div className="answer">Answer: {response.response}</div>
+									</div>
+								))}
+							</div>
+						</div>
+					))}
+			</div>
 		</div>
 	);
 };

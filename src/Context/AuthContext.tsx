@@ -5,7 +5,6 @@ interface AuthContextType {
 	login: (token: string, cb: () => void) => void;
 	logout: (cb: () => void) => void;
 	setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-	// setAuthenticated: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -15,18 +14,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
 	const [authenticated, setAuthenticated] = useState(false);
 
-	// I think I need to add a check to see if the user is already logged in
-	// can remove extra logic here and move it to the serveices in the future.
 	const login = (token: string, cb: () => void) => {
-		// Include token parameter
-		// console.log(token);
-		localStorage.setItem('token', token); // Store the token
+		localStorage.setItem('token', token);
 		setAuthenticated(true);
 		cb();
 	};
 
 	const logout = (cb: () => void) => {
-		localStorage.removeItem('token'); // Remove the token
+		localStorage.removeItem('token');
 		setAuthenticated(false);
 		cb();
 	};
@@ -45,6 +40,5 @@ export const useAuth = (): AuthContextType => {
 	if (!context) {
 		throw new Error('useAuth must be used within an AuthProvider');
 	}
-	console.log(context);
 	return context;
 };

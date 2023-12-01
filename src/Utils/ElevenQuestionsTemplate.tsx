@@ -6,7 +6,7 @@ export interface Question {
 	// checkboxes?: string[] | boolean[];
 }
 
-export const elevenQustionsTemplate: Question[] = [
+export const elevenQuestionsTemplate: Question[] = [
 	{
 		id: 1,
 		question: `Was I resentful today?`,

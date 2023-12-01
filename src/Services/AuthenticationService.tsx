@@ -1,7 +1,6 @@
 // Handle all authentication requests to the server, Can delete this comment later. Just helps to lower the text I want to look at.
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
-// console.log('BASE_URL', BASE_URL);
 if (!BASE_URL) {
 	throw new Error('Missing Server URL');
 }
@@ -52,8 +51,8 @@ const apiServiceJWT = {
 
 	profile: async (accessToken: string) => {
 		try {
-			const response = await fetch(`${BASE_URL}/me`, {
-				method: 'GET',
+			const response = await fetch(`${BASE_URL}/profile`, {
+				method: 'PUT',
 				credentials: 'include',
 				mode: 'cors',
 				headers: {

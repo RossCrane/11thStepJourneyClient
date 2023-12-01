@@ -7,52 +7,12 @@ import bell from '../../assets/bell.svg';
 import loginIcon from '../../assets/loginicon.svg';
 import logoutIcon from '../../assets/logouticon.svg';
 import profileIcon from '../../assets/profileicon.svg';
-
-// interface IAccountLinks {
-// 	id: number;
-// 	to: string;
-// 	icon: string; // could be File or HTMLImageElement
-// 	text: string;
-// 	loggedInOnly?: boolean;
-// }
-
-// old code for manual login/logout
-// interface IHeaderAccountProps {
-// 	isLoggedIn: boolean;
-// }
-
-// const accountLinks: IAccountLinks[] = [
-// 	{
-// 		id: 0,
-// 		to: '/',
-// 		icon: profileIcon,
-// 		text: 'Account Details',
-// 		loggedInOnly: true,
-// 	},
-// 	{
-// 		id: 1,
-// 		to: '/',
-// 		icon: bell,
-// 		text: 'Notifications',
-// 	},
-// 	{
-// 		id: 2,
-// 		to: '/login',
-// 		icon: logoutIcon,
-// 		text: 'Log Out',
-// 		loggedInOnly: true,
-// 	},
-// 	{
-// 		id: 3,
-// 		to: '/login',
-// 		icon: loginIcon,
-// 		text: 'Log In',
-// 		loggedInOnly: false,
-// 	},
-// ];
+import { useNavigate } from 'react-router-dom';
 
 const HeaderAccount: React.FC = () => {
 	const { authenticated, setAuthenticated, logout } = useAuth();
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const checkAuthentication = async () => {
@@ -72,14 +32,14 @@ const HeaderAccount: React.FC = () => {
 		};
 
 		checkAuthentication();
-	}, [setAuthenticated]);
+	}, []);
 
-	// Add a function to handle logout
 	const handleLogout = () => {
 		logout(() => {
-			// Additional logic on logout (e.g., redirect to home page)
+			navigate('/');
 		});
 	};
+
 	return (
 		<div className="account-container">
 			<ul>
@@ -111,10 +71,10 @@ const HeaderAccount: React.FC = () => {
 				{authenticated && (
 					<li>
 						<div className="tooltip-container">
-							<Link to="/login">
+							<button onClick={handleLogout} className="icon-button">
 								<img className="icons" src={logoutIcon} alt="Log Out" />
 								<span className="tooltip-text">Log Out</span>
-							</Link>
+							</button>
 						</div>
 					</li>
 				)}

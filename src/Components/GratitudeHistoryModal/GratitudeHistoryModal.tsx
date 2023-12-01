@@ -1,8 +1,14 @@
 import React from 'react';
+import './Styles.css';
 
 interface GratitudeHistoryEntry {
-	gratitudeNumber: number;
-	gratitude: string;
+	_id: string;
+	userId: string;
+	items: {
+		gratitudeNumber: number;
+		gratitude: string;
+		_id: string;
+	}[];
 	date: string;
 }
 
@@ -17,27 +23,32 @@ const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
 	onClose,
 	history,
 }) => {
+	// Function to group gratitudes by date
+	const groupByDate = (entries: GratitudeHistoryEntry[]) => {
+		return entries.reduce((acc, entry) => {
+			const dateKey = new Date(entry.date).toLocaleDateString();
+			if (!acc[dateKey]) {
+				acc[dateKey] = [];
+			}
+			acc[dateKey].push(...entry.items);
+			return acc;
+		}, {} as Record<string, { gratitudeNumber: number; gratitude: string; _id: string }[]>);
+	};
+
+	const groupedHistory = groupByDate(history);
+
 	return (
-		<div
-			style={{
-				display: isOpen ? 'block' : 'none',
-				position: 'fixed',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-				backgroundColor: 'white',
-				padding: '20px',
-				borderRadius: '10px',
-				boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-			}}
-		>
+		<div className={`gratitude-history-modal ${isOpen ? 'show' : ''}`}>
 			<button onClick={onClose}>Close</button>
-			{history.map((entry, index) => (
-				<div key={index}>
-					<div>Date: {entry.date}</div>
-					<div>
-						Item {entry.gratitudeNumber}: {entry.gratitude}
-					</div>
+			<h3>My Gratitude History:</h3>
+			{Object.entries(groupedHistory).map(([date, items]) => (
+				<div key={date} className="gratitude-entry">
+					<div>{date}</div>
+					{items.map((item) => (
+						<div key={item._id} className="gratitude-item">
+							-{item.gratitude}
+						</div>
+					))}
 				</div>
 			))}
 		</div>

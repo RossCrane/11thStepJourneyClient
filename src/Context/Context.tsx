@@ -1,3 +1,5 @@
+// Can likely delete this component
+
 import React, { createContext, useState, ReactNode } from 'react';
 
 // Define the context data structure

@@ -10,7 +10,6 @@ interface INavLinks {
 	text: string;
 }
 export const links: INavLinks[] = [
-	//{ id: 0, to: '/', icon: 'home', text: 'Home' },
 	{ id: 1, to: '/uponawakening', icon: awakening, text: 'Upon Awakening' },
 	{ id: 2, to: '/prayers', icon: prayer, text: 'Prayers' },
 	{

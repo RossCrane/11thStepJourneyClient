@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Styles.css';
-import { getUserProfile } from '../../Services/ProfileService';
+import {
+	getUserProfile,
+	updateUserProfile,
+} from '../../Services/ProfileService';
 
 interface IProfileForm {
 	firstName?: string;
@@ -27,7 +30,6 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 	const defaultProfileData = {
 		isAnonymous: false,
 		programs: { AA: false, CA: false, NA: false },
-		// Add default values for other fields if necessary
 	};
 
 	const [formData, setFormData] = useState<IProfileForm>(defaultProfileData);
@@ -36,11 +38,31 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 	useEffect(() => {
 		const fetchUserProfile = async () => {
 			try {
-				const userProfile = await getUserProfile();
-				setFormData({ ...defaultProfileData, ...userProfile });
+				const response = await getUserProfile();
+				if (response.success && response.data) {
+					const userProfileData = response.data;
+					const transformedProfileData = {
+						firstName: userProfileData.firstName,
+						lastName: userProfileData.lastName,
+						email: userProfileData.email,
+						phoneNumber: userProfileData.phone,
+						isAnonymous:
+							userProfileData.anonymousFlag !== undefined
+								? userProfileData.anonymousFlag
+								: false,
+						state: userProfileData.state,
+						city: userProfileData.city,
+						homeGroup: userProfileData.homeGroup,
+						programs: {
+							AA: userProfileData.aaFlag || false,
+							CA: userProfileData.caFlag || false,
+							NA: userProfileData.naFlag || false,
+						},
+					};
+					setFormData(transformedProfileData);
+				}
 			} catch (error) {
 				console.error('Error fetching user profile:', error);
-				// Handle error, possibly show an error message
 			}
 		};
 
@@ -70,9 +92,29 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 		}));
 	};
 
-	const handleSave = () => {
-		// You can perform any validation or further logic here before saving
-		onSave(formData);
+	const handleSave = async () => {
+		try {
+			const formattedData = {
+				...formData,
+				aaFlag: formData.programs?.AA || false,
+				caFlag: formData.programs?.CA || false,
+				naFlag: formData.programs?.NA || false,
+				firstName: formData.firstName,
+				lastName: formData.lastName,
+				email: formData.email,
+				phoneNumber: formData.phoneNumber,
+				isAnonymous: formData.isAnonymous,
+				state: formData.state,
+				city: formData.city,
+				homeGroup: formData.homeGroup,
+			};
+
+			await updateUserProfile(formattedData);
+			console.log('Profile updated successfully');
+			onSave(formattedData); // Notify parent component about the update
+		} catch (error) {
+			console.error('Error updating profile:', error);
+		}
 	};
 
 	const toggleEditMode = () => {

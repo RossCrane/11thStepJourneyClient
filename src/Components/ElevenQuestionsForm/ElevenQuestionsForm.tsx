@@ -4,6 +4,9 @@ import {
 	fetchElevenQuestionsHistory,
 } from '../../Services/ElevenQuestionsService';
 import ElevenQuestionsHistoryModal from '../ElevenQuestionsHistoryModal/ElevenQuestionsHistoryModal';
+import { useAuth } from '../../Context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Step {
 	id: number;
@@ -19,6 +22,7 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 	handleStepFormSubmit,
 	steps,
 }) => {
+	const { authenticated } = useAuth();
 	const [currentStep, setCurrentStep] = useState(steps[0]);
 	const [currentStepIdx, setCurrentStepIdx] = useState(0);
 	const [formState, setFormState] = useState(() => {
@@ -56,7 +60,7 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.key === 'Enter' && !e.shiftKey) {
-			e.preventDefault(); // Prevents form submission on Enter
+			e.preventDefault();
 			if (!isLastStep) {
 				handleNext();
 			} else {
@@ -70,10 +74,17 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		setIsModalOpen(!isModalOpen);
 		if (!isModalOpen) {
 			try {
-				const historyData = await fetchElevenQuestionsHistory();
-				setHistory(historyData);
+				const response = await fetchElevenQuestionsHistory();
+				console.log('Fetched History Data:', response);
+				if (response.success) {
+					setHistory(response.data);
+				} else {
+					console.error('Failed to fetch question responses history');
+					setHistory([]);
+				}
 			} catch (error) {
 				console.error('Error fetching question responses history:', error);
+				setHistory([]);
 			}
 		}
 	};
@@ -87,10 +98,9 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 
 			const response = await submitQuestionResponses(formattedResponses);
 			console.log('Responses submitted:', response);
-			handleStepFormSubmit?.(formattedResponses); // Optional callback
+			handleStepFormSubmit?.(formattedResponses);
 		} catch (error) {
 			console.error('Error submitting responses:', error);
-			// Handle submission error
 		}
 	};
 
@@ -110,18 +120,18 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		navigator.clipboard.writeText(textToCopy).then(
 			() => {
 				console.log('Copied to clipboard successfully.');
-				// Optionally, you can show a success message to the user
+				toast.success('Copied to clipboard successfully.');
 			},
 			(err) => {
 				console.error('Could not copy text: ', err);
-				// Optionally, handle the error case
+				toast.error('Failed to copy text.');
 			}
 		);
 	};
 
 	return (
 		<div>
-			<button onClick={toggleModal}>View History</button>
+			{authenticated && <button onClick={toggleModal}>View History</button>}
 			<ElevenQuestionsHistoryModal
 				isOpen={isModalOpen}
 				onClose={toggleModal}
@@ -150,7 +160,9 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 			{!isLastStep && <button onClick={handleNext}>Next</button>}
 			{isLastStep && (
 				<div>
-					<button onClick={handleSubmitResponses}>Send</button>
+					{authenticated && (
+						<button onClick={handleSubmitResponses}>Save</button>
+					)}
 					<button onClick={copyToClipboard}>Copy to Clipboard</button>
 				</div>
 			)}

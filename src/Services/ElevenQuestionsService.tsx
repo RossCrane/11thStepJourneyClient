@@ -5,6 +5,26 @@ if (!BASE_URL) {
 	throw new Error('Missing Server URL');
 }
 
+interface QuestionResponse {
+	questionNumber: number;
+	response: string;
+	_id: string;
+}
+
+interface ElevenQuestionsHistoryEntry {
+	responsesToResponse: any[];
+	_id: string;
+	userId: string;
+	responses: QuestionResponse[];
+	date: string;
+	__v: number; // Version key, if not needed, can be omitted
+}
+
+interface ElevenQuestionsHistoryResponse {
+	success: boolean;
+	data: ElevenQuestionsHistoryEntry[];
+}
+
 export const submitQuestionResponses = async (
 	responses: any[]
 ): Promise<any> => {
@@ -30,23 +50,25 @@ export const submitQuestionResponses = async (
 	return response.json();
 };
 
-export const fetchElevenQuestionsHistory = async (): Promise<any[]> => {
-	const token = localStorage.getItem('token');
-	if (!token) {
-		throw new Error('No authorization token found');
-	}
+export const fetchElevenQuestionsHistory =
+	async (): Promise<ElevenQuestionsHistoryResponse> => {
+		const token = localStorage.getItem('token');
+		if (!token) {
+			throw new Error('No authorization token found');
+		}
 
-	const response = await fetch(`${BASE_URL}/path-to-fetch-history`, {
-		// Update with your actual endpoint
-		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
+		const response = await fetch(`${BASE_URL}/response`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-	if (!response.ok) {
-		throw new Error('Failed to fetch question responses history');
-	}
+		const data: ElevenQuestionsHistoryResponse = await response.json();
 
-	return response.json();
-};
+		if (!response.ok) {
+			throw new Error('Failed to fetch question responses history');
+		}
+
+		return data;
+	};

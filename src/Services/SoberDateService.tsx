@@ -1,7 +1,6 @@
 // I like that this lowers the text.
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
-// console.log('BASE_URL', BASE_URL);
 if (!BASE_URL) {
 	throw new Error('Missing Server URL');
 }
@@ -29,19 +28,16 @@ export const saveSoberDate = async (soberDate: string): Promise<any> => {
 	return data;
 };
 
-//export default saveSoberDate;
-
-// In your ApiService.ts
-
 export const getSoberDate = async (): Promise<string | null> => {
 	const token = localStorage.getItem('token');
 	if (!token) {
-		return null; // No user is logged in
+		return null;
 	}
 
-	const response = await fetch(`${BASE_URL}/path-to-get-sober-date`, {
-		// Replace with your actual endpoint
+	const response = await fetch(`${BASE_URL}/soberDate`, {
 		method: 'GET',
+		credentials: 'include',
+		mode: 'cors',
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
@@ -52,7 +48,5 @@ export const getSoberDate = async (): Promise<string | null> => {
 	}
 
 	const data = await response.json();
-	return data.soberDate; // Ensure this matches the structure of your response
+	return data.soberDate;
 };
-
-// export default getSoberDate;

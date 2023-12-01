@@ -5,26 +5,24 @@ import { AuthProvider } from './Context/AuthContext';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import { ElevenQuestionsForm } from './Components/ElevenQuestionsForm/ElevenQuestionsForm';
-import { elevenQustionsTemplate } from './Utils/ElevenQuestionsTemplate';
+import { elevenQuestionsTemplate } from './Utils/ElevenQuestionsTemplate';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
 import ProfileForm from './Components/ProfileForm/ProfileForm';
 import Prayers from './Components/Prayers/Prayers';
 import UponAwakening from './Components/UponAwakening/UponAwakening';
 import SobrietyCalculator from './Components/SobrietyCalculator/SobrietyCalculator';
 import GratitudeList from './Components/GratitudeList/GratitudeList';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import NotificationModal from './Components/NotificationModal/NotificationModal';
 
-// For eleven questions form
 const handleStepFormSubmit = (formData: any) => {
 	console.log(formData, 'form data here after submission');
 };
 
-// for profile form
 const App: React.FC = () => {
-	// For sobriety calculator
 	const [userSobrietyDate, setUserSobrietyDate] = useState<string | null>(null);
 
-	//	Define the profileData and onSave function
 	const profileData = {
 		firstName: '',
 		lastName: '',
@@ -40,7 +38,6 @@ const App: React.FC = () => {
 		},
 	};
 
-	//for profile form
 	const onSave = (formData: any) => {
 		// Implement the logic to save the form data to the backend
 		console.log(formData);
@@ -56,7 +53,7 @@ const App: React.FC = () => {
 							element={
 								<ElevenQuestionsForm
 									handleStepFormSubmit={handleStepFormSubmit}
-									steps={elevenQustionsTemplate}
+									steps={elevenQuestionsTemplate}
 								/>
 							}
 						/>
@@ -74,7 +71,11 @@ const App: React.FC = () => {
 							path="/sobrietycalculator"
 							element={<SobrietyCalculator />}
 						/>
-						<Route path="/creategratitude" element={<GratitudeList />} />
+						<Route
+							path="/creategratitude"
+							element={<GratitudeList />}
+							// onSave={handleGratitudeSave}
+						/>
 					</Routes>
 				</div>
 				<Footer />

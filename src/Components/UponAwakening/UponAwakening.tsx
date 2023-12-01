@@ -1,4 +1,3 @@
-// import { uponAwakeningData } from '../../Utils/UponAwakenigData';
 import './Styles.css';
 
 const uponAwakeningData =

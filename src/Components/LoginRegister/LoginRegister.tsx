@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiServiceJWT from '../../Services/AuthenticationService';
 import { useAuth } from '../../Context/AuthContext';
 import './Styles.css';
@@ -17,12 +18,8 @@ interface RegisterForm {
 	token?: string;
 }
 
-interface RegisterResponse {
-	// ... other properties ...
-	token: string;
-}
-
 function LoginRegister() {
+	const navigate = useNavigate();
 	const [loginForm, setLoginForm] = useState<LoginForm>({
 		loginEmail: '',
 		loginPassword: '',
@@ -65,6 +62,7 @@ function LoginRegister() {
 			console.log(response);
 			auth.login(response.token, () => {
 				console.log('Logged in successfully');
+				navigate('/');
 			});
 		} catch (error) {
 			console.error('Login failed:', error);
@@ -101,6 +99,7 @@ function LoginRegister() {
 			if (response.token) {
 				auth.login(response.token, () => {
 					console.log('Registered and logged in successfully');
+					navigate('/');
 				});
 			} else {
 				// Handle case where token is not present in response

@@ -5,6 +5,7 @@ import {
 } from '../../Services/GratitudeService';
 import './Styles.css';
 import GratitudeHistoryModal from '../GratitudeHistoryModal/GratitudeHistoryModal';
+import { useAuth } from '../../Context/AuthContext';
 
 interface IGratitudeListProps {
 	onSave: (items: GratitudeItem[]) => void;
@@ -16,15 +17,19 @@ interface GratitudeItem {
 }
 
 interface GratitudeHistoryEntry {
-	gratitudeNumber: number;
-	gratitude: string;
+	_id: string;
+	userId: string;
+	items: {
+		gratitudeNumber: number;
+		gratitude: string;
+		_id: string;
+	}[];
 	date: string;
 }
 
 const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 	const [items, setItems] = useState<string[]>(['']);
-
-	// new code
+	const { authenticated } = useAuth();
 	const [history, setHistory] = useState<GratitudeHistoryEntry[]>([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,8 +37,12 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		setIsModalOpen(!isModalOpen);
 		if (!isModalOpen) {
 			try {
-				const historyData = await fetchGratitudeHistory();
-				setHistory(historyData);
+				const response = await fetchGratitudeHistory();
+				if (response.success) {
+					setHistory(response.data);
+				} else {
+					console.error('Failed to fetch gratitude history');
+				}
 			} catch (error) {
 				console.error('Error fetching gratitude history:', error);
 			}
@@ -72,26 +81,25 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		try {
 			const savedEntry = await createGratitudeEntry(formattedItems);
 			console.log('Gratitude Entry Saved:', savedEntry);
-			// onSave(formattedItems);
 		} catch (error) {
 			console.error('Error saving gratitude entry:', error);
-			// Handle save error
 		}
 	};
 
 	const formatGratitudesForClipboard = () => {
-		if (items.length === 0) {
-			return 'No current gratitude entries to copy.';
+		if (!history || history.length === 0) {
+			return 'No gratitude entries to copy.';
 		}
 
 		let formattedText = 'I am grateful for:\n';
-		const currentDate = new Date().toLocaleString();
-		formattedText += `\n${currentDate}\n`;
 
-		items.forEach((item, index) => {
-			if (item.trim() !== '') {
-				formattedText += `${index + 1}. ${item}\n`;
-			}
+		history.forEach((entry) => {
+			const date = new Date(entry.date).toLocaleString();
+			formattedText += `\nDate: ${date}\n`;
+
+			entry.items.forEach((item) => {
+				formattedText += `${item.gratitudeNumber}. ${item.gratitude}\n`;
+			});
 		});
 
 		return formattedText;
@@ -113,7 +121,7 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 
 	return (
 		<div className="gratitude-list-container">
-			<button onClick={toggleModal}>View History</button>
+			{authenticated && <button onClick={toggleModal}>View History</button>}
 			<button onClick={copyGratitudesToClipboard}>
 				Copy Gratitudes to Clipboard
 			</button>
@@ -153,13 +161,15 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 						Add Item
 					</button>
 				)}
-				<button
-					type="button"
-					className="gratitude-save-button"
-					onClick={handleSave}
-				>
-					Save
-				</button>
+				{authenticated && (
+					<button
+						type="button"
+						className="gratitude-save-button"
+						onClick={handleSave}
+					>
+						Save
+					</button>
+				)}
 			</form>
 		</div>
 	);
