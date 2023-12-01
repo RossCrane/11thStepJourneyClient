@@ -3,6 +3,7 @@ import moment from 'moment';
 import './Styles.css';
 import { getSoberDate, saveSoberDate } from '../../Services/SoberDateService';
 import { useAuth } from '../../Context/AuthContext';
+import { toast } from 'react-toastify';
 
 interface ISobrietyCalculatorProps {
 	onDateChange?: (newDate: string) => void;
@@ -26,6 +27,7 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 					setInputDate(formattedDate);
 				}
 			} catch (error) {
+				toast.error('Error fetching sober date.');
 				console.error('Error fetching sober date:', error);
 			}
 		};
@@ -45,11 +47,14 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 		try {
 			if (inputDate) {
 				const response = await saveSoberDate(inputDate);
-				console.log('Sober date saved:', response);
+				toast.success('Sober date saved successfully!');
+				// console.log('Sober date saved:', response);
 			} else {
-				console.error('No date selected');
+				toast.error('No date selected.');
+				// console.error('No date selected');
 			}
 		} catch (error) {
+			toast.error('Error saving sober date.');
 			console.error('Error saving sober date:', error);
 			// Handle errors, possibly show an error message to the user
 		}

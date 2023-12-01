@@ -1,4 +1,4 @@
-// Handle all authentication requests to the server, Can delete this comment later. Just helps to lower the text I want to look at.
+import { toast } from 'react-toastify';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 if (!BASE_URL) {
@@ -28,6 +28,7 @@ const apiServiceJWT = {
 			}
 			return await response.json();
 		} catch (error) {
+			toast.error('Error registering user.');
 			console.error('Registration error:', error);
 			throw error;
 		}
@@ -45,6 +46,7 @@ const apiServiceJWT = {
 			});
 			return await response.json();
 		} catch (error) {
+			toast.error('Error logging in user.');
 			console.log(error);
 		}
 	},
@@ -62,6 +64,7 @@ const apiServiceJWT = {
 			});
 			return await response.json();
 		} catch (error) {
+			toast.error('Error fetching user profile.');
 			console.log(error);
 		}
 	},

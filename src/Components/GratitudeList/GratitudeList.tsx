@@ -6,6 +6,7 @@ import {
 import './Styles.css';
 import GratitudeHistoryModal from '../GratitudeHistoryModal/GratitudeHistoryModal';
 import { useAuth } from '../../Context/AuthContext';
+import { toast } from 'react-toastify';
 
 interface IGratitudeListProps {
 	onSave: (items: GratitudeItem[]) => void;
@@ -40,11 +41,14 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 				const response = await fetchGratitudeHistory();
 				if (response.success) {
 					setHistory(response.data);
+					toast.success('Gratitude history fetched successfully!');
 				} else {
-					console.error('Failed to fetch gratitude history');
+					// console.error('Failed to fetch gratitude history');
+					toast.error('Failed to fetch gratitude history.');
 				}
 			} catch (error) {
-				console.error('Error fetching gratitude history:', error);
+				// console.error('Error fetching gratitude history:', error);
+				toast.error('Error fetching gratitude history.');
 			}
 		}
 	};
@@ -80,9 +84,11 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		// add tostify here.
 		try {
 			const savedEntry = await createGratitudeEntry(formattedItems);
-			console.log('Gratitude Entry Saved:', savedEntry);
+			// console.log('Gratitude Entry Saved:', savedEntry);
+			toast.success('Gratitude entry saved successfully!');
 		} catch (error) {
-			console.error('Error saving gratitude entry:', error);
+			// console.error('Error saving gratitude entry:', error);
+			toast.error('Error saving gratitude entry.');
 		}
 	};
 
@@ -109,12 +115,12 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		const textToCopy = formatGratitudesForClipboard();
 		navigator.clipboard.writeText(textToCopy).then(
 			() => {
-				console.log('Current gratitudes copied to clipboard successfully.');
-				// Toastify
+				// console.log('Current gratitudes copied to clipboard successfully.');
+				toast.success('Gratitudes copied to clipboard!');
 			},
 			(err) => {
-				console.error('Could not copy text: ', err);
-				// Toastify
+				// console.error('Could not copy text: ', err);
+				toast.error('Failed to copy gratitudes.');
 			}
 		);
 	};

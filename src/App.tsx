@@ -13,6 +13,7 @@ import UponAwakening from './Components/UponAwakening/UponAwakening';
 import SobrietyCalculator from './Components/SobrietyCalculator/SobrietyCalculator';
 import GratitudeList from './Components/GratitudeList/GratitudeList';
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 // import NotificationModal from './Components/NotificationModal/NotificationModal';
 
@@ -46,6 +47,7 @@ const App: React.FC = () => {
 		<AuthProvider>
 			<div className="outer-container">
 				<Header />
+				<ToastContainer />
 				<div className="inner-content-container">
 					<Routes>
 						<Route

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import apiServiceJWT from '../../Services/AuthenticationService';
 import { useAuth } from '../../Context/AuthContext';
 import './Styles.css';
+import { toast } from 'react-toastify';
 
 interface LoginForm {
 	loginEmail: string;
@@ -61,13 +62,16 @@ function LoginRegister() {
 			});
 			console.log(response);
 			auth.login(response.token, () => {
-				console.log('Logged in successfully');
+				// console.log('Logged in successfully');
 				navigate('/');
+				toast.success('Logged in successfully');
 			});
 		} catch (error) {
-			console.error('Login failed:', error);
+			// console.error('Login failed:', error);
+			// Change error to error.message if this looks bad the fix TS error
+			toast.error('Login failed: ' + error);
 		}
-		console.log('Login form submitted:', loginForm);
+		// console.log('Login form submitted:', loginForm);
 	};
 
 	const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,16 +102,19 @@ function LoginRegister() {
 			});
 			if (response.token) {
 				auth.login(response.token, () => {
-					console.log('Registered and logged in successfully');
+					// console.log('Registered and logged in successfully');
+					toast.success('Registered and logged in successfully');
 					navigate('/');
 				});
 			} else {
-				// Handle case where token is not present in response
+				toast.error('Registration failed: Token not provided');
 			}
 		} catch (error) {
-			console.error('Registration failed:', error);
+			// console.error('Registration failed:', error);
+			// Change error to error.message if this looks bad the fix TS error
+			toast.error('Registration failed: ' + error);
 		}
-		console.log('Register form submitted:', registerForm);
+		// console.log('Register form submitted:', registerForm);
 	};
 
 	const validateEmail = (email: string) => {

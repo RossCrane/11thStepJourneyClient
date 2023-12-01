@@ -4,6 +4,7 @@ import {
 	getUserProfile,
 	updateUserProfile,
 } from '../../Services/ProfileService';
+import { toast } from 'react-toastify';
 
 interface IProfileForm {
 	firstName?: string;
@@ -62,7 +63,8 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 					setFormData(transformedProfileData);
 				}
 			} catch (error) {
-				console.error('Error fetching user profile:', error);
+				toast.error('Error fetching user profile.');
+				// console.error('Error fetching user profile:', error);
 			}
 		};
 
@@ -110,10 +112,12 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 			};
 
 			await updateUserProfile(formattedData);
-			console.log('Profile updated successfully');
+			toast.success('Profile updated successfully');
+			// console.log('Profile updated successfully');
 			onSave(formattedData); // Notify parent component about the update
 		} catch (error) {
-			console.error('Error updating profile:', error);
+			toast.error('Error updating profile.');
+			// console.error('Error updating profile:', error);
 		}
 	};
 

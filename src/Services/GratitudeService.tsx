@@ -1,4 +1,4 @@
-// I like that this lowers the text.
+import { toast } from 'react-toastify';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 if (!BASE_URL) {
@@ -27,9 +27,8 @@ interface GratitudeHistoryEntry {
 }
 
 const createGratitudeEntry = async (items: GratitudeItem[]) => {
-	console.log('createGratitudeEntry', items);
+	// console.log('createGratitudeEntry', items);
 	const token = localStorage.getItem('token');
-	console.log('token', token);
 	if (!token) {
 		throw new Error('No authorization token found');
 	}
@@ -67,7 +66,7 @@ const fetchGratitudeHistory = async (): Promise<GratitudeHistoryResponse> => {
 	});
 
 	const data = await response.json();
-	console.log('data', data);
+	// console.log('data', data);
 	if (!response.ok) {
 		throw new Error(data.message || 'Could not fetch gratitude history');
 	}

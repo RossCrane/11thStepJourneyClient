@@ -5,8 +5,7 @@ import {
 } from '../../Services/ElevenQuestionsService';
 import ElevenQuestionsHistoryModal from '../ElevenQuestionsHistoryModal/ElevenQuestionsHistoryModal';
 import { useAuth } from '../../Context/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 interface Step {
 	id: number;
@@ -75,16 +74,19 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		if (!isModalOpen) {
 			try {
 				const response = await fetchElevenQuestionsHistory();
-				console.log('Fetched History Data:', response);
+				// console.log('Fetched History Data:', response);
+				toast.success('History data fetched successfully!');
 				if (response.success) {
 					setHistory(response.data);
 				} else {
-					console.error('Failed to fetch question responses history');
+					// console.error('Failed to fetch question responses history');
 					setHistory([]);
+					toast.error('Failed to fetch question responses history.');
 				}
 			} catch (error) {
-				console.error('Error fetching question responses history:', error);
+				// console.error('Error fetching question responses history:', error);
 				setHistory([]);
+				toast.error('Error fetching question responses history.');
 			}
 		}
 	};
@@ -97,10 +99,12 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 			}));
 
 			const response = await submitQuestionResponses(formattedResponses);
-			console.log('Responses submitted:', response);
+			// console.log('Responses submitted:', response);
 			handleStepFormSubmit?.(formattedResponses);
+			toast.success('Responses submitted successfully.');
 		} catch (error) {
-			console.error('Error submitting responses:', error);
+			// console.error('Error submitting responses:', error);
+			toast.error('Failed to submit responses.');
 		}
 	};
 
@@ -119,11 +123,11 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		const textToCopy = formatQuestionsAndAnswers();
 		navigator.clipboard.writeText(textToCopy).then(
 			() => {
-				console.log('Copied to clipboard successfully.');
+				//console.log('Copied to clipboard successfully.');
 				toast.success('Copied to clipboard successfully.');
 			},
 			(err) => {
-				console.error('Could not copy text: ', err);
+				//console.error('Could not copy text: ', err);
 				toast.error('Failed to copy text.');
 			}
 		);

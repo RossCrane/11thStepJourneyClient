@@ -8,6 +8,7 @@ import loginIcon from '../../assets/loginicon.svg';
 import logoutIcon from '../../assets/logouticon.svg';
 import profileIcon from '../../assets/profileicon.svg';
 import { useNavigate } from 'react-router-dom';
+// import { toast } from 'react-toastify';
 
 const HeaderAccount: React.FC = () => {
 	const { authenticated, setAuthenticated, logout } = useAuth();

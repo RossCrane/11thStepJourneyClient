@@ -9,7 +9,6 @@ const Navbar = () => {
 			{links.map((link) => (
 				<li key={link.id}>
 					<div className="tooltip-container">
-						{/* Wrap the icon and text with a Link component */}
 						<Link to={link.to}>
 							<img className="icons" src={link.icon} alt={link.text} />
 							<span className="tooltip-text">{link.text}</span>
