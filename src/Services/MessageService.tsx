@@ -40,7 +40,7 @@ export const getRequest = async (url: string) => {
 		throw new Error('No authorization token found');
 	}
 
-	const response = await fetch(`${BASE_URL}${url}`, {
+	const response = await fetch(url, {
 		method: 'GET',
 		credentials: 'include',
 		mode: 'cors',

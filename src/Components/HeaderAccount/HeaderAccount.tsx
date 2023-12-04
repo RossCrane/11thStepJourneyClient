@@ -15,25 +15,25 @@ const HeaderAccount: React.FC = () => {
 
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const checkAuthentication = async () => {
-			try {
-				const accessToken = localStorage.getItem('token');
-				if (accessToken) {
-					await apiServiceJWT.profile(accessToken);
+	// useEffect(() => {
+	// 	const checkAuthentication = async () => {
+	// 		try {
+	// 			const accessToken = localStorage.getItem('token');
+	// 			if (accessToken) {
+	// 				await apiServiceJWT.profile(accessToken);
 
-					setAuthenticated(true);
-				} else {
-					setAuthenticated(false);
-				}
-			} catch (error) {
-				console.error('Authentication check failed:', error);
-				setAuthenticated(false);
-			}
-		};
+	// 				setAuthenticated(true);
+	// 			} else {
+	// 				setAuthenticated(false);
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Authentication check failed:', error);
+	// 			setAuthenticated(false);
+	// 		}
+	// 	};
 
-		checkAuthentication();
-	}, []);
+	// 	checkAuthentication();
+	// }, []);
 
 	const handleLogout = () => {
 		logout(() => {
