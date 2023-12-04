@@ -1,3 +1,9 @@
 .header-account-container {
 	margin-right: 20px;
 }
+
+.icon-button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}

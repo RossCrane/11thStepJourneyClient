@@ -14,14 +14,16 @@ import SobrietyCalculator from './Components/SobrietyCalculator/SobrietyCalculat
 import GratitudeList from './Components/GratitudeList/GratitudeList';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useAuth } from './Context/AuthContext';
 
 // import NotificationModal from './Components/NotificationModal/NotificationModal';
 
 const handleStepFormSubmit = (formData: any) => {
-	console.log(formData, 'form data here after submission');
+	// console.log(formData, 'form data here after submission');
 };
 
 const App: React.FC = () => {
+	const { authenticated } = useAuth();
 	const [userSobrietyDate, setUserSobrietyDate] = useState<string | null>(null);
 
 	const profileData = {
@@ -44,45 +46,46 @@ const App: React.FC = () => {
 		console.log(formData);
 	};
 	return (
-		<AuthProvider>
-			<div className="outer-container">
-				<Header />
-				<ToastContainer />
-				<div className="inner-content-container">
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<ElevenQuestionsForm
-									handleStepFormSubmit={handleStepFormSubmit}
-									steps={elevenQuestionsTemplate}
-								/>
-							}
-						/>
-						<Route path="/login" element={<LoginRegister />} />
-						{/* Should be a protected route */}
-						<Route
-							path="/account"
-							element={
+		// <AuthProvider>
+		<div className="outer-container">
+			<Header />
+			<ToastContainer />
+			<div className="inner-content-container">
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<ElevenQuestionsForm
+								handleStepFormSubmit={handleStepFormSubmit}
+								steps={elevenQuestionsTemplate}
+							/>
+						}
+					/>
+					<Route path="/login" element={<LoginRegister />} />
+					{/* Should be a protected route */}
+					<Route
+						path="/account"
+						element={
+							authenticated ? (
 								<ProfileForm profileData={profileData} onSave={onSave} />
-							}
-						/>
-						<Route path="/prayers" element={<Prayers />} />
-						<Route path="/uponawakening" element={<UponAwakening />} />
-						<Route
-							path="/sobrietycalculator"
-							element={<SobrietyCalculator />}
-						/>
-						<Route
-							path="/creategratitude"
-							element={<GratitudeList />}
-							// onSave={handleGratitudeSave}
-						/>
-					</Routes>
-				</div>
-				<Footer />
+							) : (
+								<LoginRegister />
+							)
+						}
+					/>
+					<Route path="/prayers" element={<Prayers />} />
+					<Route path="/uponawakening" element={<UponAwakening />} />
+					<Route path="/sobrietycalculator" element={<SobrietyCalculator />} />
+					<Route
+						path="/creategratitude"
+						element={<GratitudeList />}
+						// onSave={handleGratitudeSave}
+					/>
+				</Routes>
 			</div>
-		</AuthProvider>
+			<Footer />
+		</div>
+		// </AuthProvider>
 	);
 };
 

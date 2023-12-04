@@ -60,7 +60,6 @@ function LoginRegister() {
 				email: loginForm.loginEmail,
 				password: loginForm.loginPassword,
 			});
-			console.log(response);
 			auth.login(response.token, () => {
 				// console.log('Logged in successfully');
 				navigate('/');

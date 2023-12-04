@@ -8,7 +8,7 @@ if (!BASE_URL) {
 interface IProfileForm {
 	firstName?: string;
 	lastName?: string;
-	email?: string;
+	email: string;
 	phoneNumber?: string;
 	phone?: string;
 	isAnonymous: boolean;
