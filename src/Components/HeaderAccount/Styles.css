@@ -19,6 +19,10 @@
 	cursor: pointer;
 }
 
+.date {
+	text-align: end;
+}
+
 /* Notification */
 .notifications {
 	position: absolute;

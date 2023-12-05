@@ -7,6 +7,8 @@ import { ChatContextType, User, Chat } from '../../Types/Types';
 import { unreadNotificationsFunc } from '../../Utils/UnreadNotifications';
 import { useFetchLatestMessage } from '../../Hooks/UseFetchLatestMessage';
 import moment from 'moment';
+import defaultProfileIcon from '../../assets/default_profile_icon.svg';
+
 // import image from '../../Assets/Images/placeholder.png';
 
 interface UserChatProps {
@@ -42,6 +44,10 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 		}
 	};
 
+	// const getName = () => {
+	// 	const nameAndId = getUsers();
+	// };
+
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			handleClick();
@@ -57,7 +63,7 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 		return shortText;
 	};
 
-	// console.log('recipientUser', recipientUser);
+	console.log('recipientUser', recipientUser);
 	// console.log('user', user);
 
 	return (
@@ -81,14 +87,13 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
 					<Box sx={{ marginRight: 2 }}>
 						{/* Import an image here */}
-						{/* <img src={image} alt="Placeholder" height="35px" /> */}
-						image
+						<img src={defaultProfileIcon} alt="Placeholder" height="40px" />
 					</Box>
 					<Box className="text-content">
-						<Typography variant="subtitle1">
+						<Typography variant="subtitle1" align="left">
 							Name, {recipientUser?.firstName}
 						</Typography>
-						<Typography className="text" variant="body2">
+						<Typography className="text" variant="body2" align="left">
 							{latestMessage?.text && (
 								<span>{truncateText(latestMessage?.text)}</span>
 							)}
@@ -114,7 +119,6 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 					<span className={isOnline ? 'user-online' : ''}></span>
 				</Box>
 			</Stack>
-			User Chat
 		</div>
 	);
 };

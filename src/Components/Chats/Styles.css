@@ -72,6 +72,7 @@ body {
 	flex: 1; /* Take up the remaining space */
 	overflow-y: auto; /* Enable scrolling for overflowing content */
 	margin-right: 1rem; /* Add margin between message box and chat box */
+	height: 83vh; /* Set a fixed height */
 	/* Rest of your styles */
 }
 

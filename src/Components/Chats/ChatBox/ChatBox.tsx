@@ -20,6 +20,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 		messages,
 		isMessagesLoading,
 		sendTextMessage,
+		socket,
 		// messagesError,
 	} = useContext(ChatContext) as any; // Replace 'any' with the actual type
 	//console.log(currentChat, 'current chat here');
@@ -35,6 +36,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 		if (!recipientId) return null;
 
 		const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
+		console.log(response, 'response here');
 
 		if (response.error) {
 			return console.log('error getting user');
@@ -54,13 +56,13 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 
 	if (!recipientUser)
 		return (
-			<p style={{ textAlign: 'center', width: '100%' }}>
+			<p style={{ textAlign: 'center', width: 'auto' }}>
 				No Conversations Selected Yet...
 			</p>
 		);
 
 	if (isMessagesLoading)
-		return <p style={{ textAlign: 'center', width: '100%' }}>Loading...</p>;
+		return <p style={{ textAlign: 'center', width: 'auto' }}>Loading...</p>;
 
 	return (
 		<>
@@ -94,7 +96,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 					direction={'row'}
 					spacing={3}
 					className="chat-input"
-					sx={{ flexGrow: 0 }}
+					sx={{ flexGrow: 0, alignSelf: 'flex-end', bottom: 0 }}
 				>
 					<InputEmoji
 						value={textMessage}

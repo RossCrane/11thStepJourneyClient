@@ -3,10 +3,13 @@ import { BASE_URL, getRequest, postRequest } from '../Services/MessageService';
 import { ChatContextType, User, Chat, Message } from '../Types/Types';
 import { io } from 'socket.io-client';
 
+//http://localhost:3001
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 if (!SOCKET_URL) {
 	throw new Error('Missing Socket URL');
 }
+
+const socket = io('http://localhost:3001');
 
 export const ChatContext = createContext<ChatContextType | null>(null);
 
@@ -29,37 +32,31 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	const [messagesError, setMessagesError] = useState<any>(null); // review later
 	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null); // review later
 	const [newMessage, setNewMessage] = useState<Message | null>(null); // review later
-	const [socket, setSocket] = useState<any>(null);
+	//const [socket, setSocket] = useState<any>(null);
 	const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
 	const [notifications, setNotifications] = useState<Message[] | null>(null); // review later
 	const [allUsers, setAllUsers] = useState<User[]>([]);
 
-	useEffect(() => {
-		const newSocket = io(`${SOCKET_URL}`);
-		setSocket(newSocket);
+	// console.log(currentChat, 'current chat here');
+	// console.log(messages, 'messages here');
 
-		return () => {
-			newSocket.disconnect();
-		};
-	}, [user]);
+	//initialize socket
+
+	useEffect(() => {
+		socket.on('recieveMessage', (data) => {
+			console.log(data, 'recieved message here');
+		});
+	}, []);
+
+	// useEffect(() => {
+	// 	console.log('socket url', SOCKET_URL);
+	// }, [user]);
 
 	// add user to online users
-	useEffect(() => {
-		if (socket === null) return;
-		socket.emit('addNewUser', user?._id);
-		socket.on('getOnlineUsers', (res: User[]) => {
-			setOnlineUsers(res);
-		});
-		return () => {
-			socket.off('getOnlineUsers');
-		};
-	}, [socket]);
-
 	// let socket: any = null;
 
-	// Start Code with Gerry
 	// useEffect(() => {
-	// 	socket = io(`${SOCKET_URL}`);
+	// 	socket = io(`http://localhost:5000`);
 	// 	socket.emit('addNewUser', user?._id);
 	// 	socket.on('getOnlineUsers', (res: User[]) => {
 	// 		setOnlineUsers(res);
@@ -69,46 +66,44 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	// 		socket.disconnect();
 	// 	};
 	// }, [user, socket]);
-	// END Code with Gerry
 
-	// send message
-	useEffect(() => {
-		if (socket === null) return;
+	// // send message
+	// useEffect(() => {
+	// 	if (socket === null) return;
 
-		const recipientId = currentChat?.members.find((id) => id !== user?.id);
+	// 	const recipientId = currentChat?.members.find((id) => id !== user?.id);
 
-		socket.emit('sendMessage', { ...newMessage, recipientId });
-	}, [newMessage]);
+	// 	socket.emit('sendMessage', { ...newMessage, recipientId });
+	// }, [newMessage]);
 
-	// receive message and notifications
-	useEffect(() => {
-		if (socket === null) return;
+	// // receive message and notifications
+	// useEffect(() => {
+	// 	if (socket === null) return;
 
-		socket.on('getMessage', (res) => {
-			if (currentChat?._id !== res.chatId) return;
+	// 	socket.on('getMessage', (res) => {
+	// 		if (currentChat?._id !== res.chatId) return;
 
-			setMessages((prev) => [...prev, res]);
-		});
+	// 		setMessages((prev) => [...prev, res]);
+	// 	});
 
-		socket.on('getNotification', (res) => {
-			const isChatOpen = currentChat?.members.some((id) => id === res.senderId);
+	// 	socket.on('getNotification', (res) => {
+	// 		const isChatOpen = currentChat?.members.some((id) => id === res.senderId);
 
-			if (isChatOpen) {
-				setNotifications((prev) => [{ ...res, isRead: true }, ...prev]);
-			} else {
-				setNotifications((prev) => [res, ...prev]);
-			}
-		});
+	// 		if (isChatOpen) {
+	// 			setNotifications((prev) => [{ ...res, isRead: true }, ...prev]);
+	// 		} else {
+	// 			setNotifications((prev) => [res, ...prev]);
+	// 		}
+	// 	});
 
-		return () => {
-			socket.off('getMessage');
-			socket.off('getNotification');
-		};
-	}, [socket, currentChat]);
+	// 	return () => {
+	// 		socket.off('getMessage');
+	// 		socket.off('getNotification');
+	// 	};
+	// }, [socket, currentChat]);
 
 	useEffect(() => {
 		const getUsers = async () => {
-			console.log('getting users');
 			const response = await getRequest(`${BASE_URL}/users`);
 			if (response.error) {
 				return console.log(`Error fetching users: `, response);
@@ -127,7 +122,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				//
 				return !isChatCreated;
 			});
-			console.log('pChats', pChats);
 			setPotentialChats(pChats);
 			setAllUsers(response);
 		};
@@ -140,7 +134,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				setIsUserChatsLoading(true);
 				setUserChatsError(null);
 				// might need to change the url
-				const response = await getRequest(`${BASE_URL}/userChats/${user._id}`);
+				const response = await getRequest(`${BASE_URL}/userChats/${user?._id}`);
 				setIsUserChatsLoading(false);
 
 				if (response.error) {
@@ -192,11 +186,23 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		) => {
 			if (!textMessage) return console.log(`No message to send`);
 
-			const response = await postRequest(`/message`, {
-				chatId: currentChatId,
-				senderId: sender._id,
-				text: textMessage,
-			});
+			console.log('test message', textMessage);
+			// new code
+			// socket.emit('sendMessage', {
+			// 	chatId: currentChatId,
+			// 	senderId: sender._id,
+			// 	text: textMessage,
+			// });
+			// new code end
+
+			const response = await postRequest(
+				`/messages`,
+				JSON.stringify({
+					chatId: currentChatId,
+					senderId: sender._id,
+					text: textMessage,
+				})
+			);
 
 			if (response.error) {
 				return setSendTextMessageError(response);
@@ -302,6 +308,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				markAllNotificationsAsRead,
 				markNotificationAsRead,
 				markThisUserNotificationsAsRead,
+				socket,
 			}}
 		>
 			{children}

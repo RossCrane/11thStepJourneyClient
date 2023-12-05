@@ -6,6 +6,7 @@ import {
 import ElevenQuestionsHistoryModal from '../ElevenQuestionsHistoryModal/ElevenQuestionsHistoryModal';
 import { useAuth } from '../../Context/AuthContext';
 import { toast } from 'react-toastify';
+import './Styles.css';
 
 interface Step {
 	id: number;
@@ -134,7 +135,7 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 	};
 
 	return (
-		<div>
+		<div className="eleven-questions-form-container">
 			{authenticated && <button onClick={toggleModal}>View History</button>}
 			<ElevenQuestionsHistoryModal
 				isOpen={isModalOpen}
@@ -142,10 +143,14 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 				history={history}
 			/>
 			{/* Probably create a card component here instead of this div */}
-			<p>When we retire at night we constructively review our day.</p>
-			<div>
+			<p className="question-text">
+				When we retire at night we constructively review our day.
+			</p>
+			<div className="question-container">
 				{currentStep.question.split('\n').map((line, index) => (
-					<p key={index}>{line}</p>
+					<p className="question-text" key={index}>
+						{line}{' '}
+					</p>
 				))}
 				{/* <input
 					type="text"
@@ -159,17 +164,28 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 					placeholder="Your answer here"
 				/>
 			</div>
-
-			{!isFirstStep && <button onClick={handlePrevious}>Previous</button>}
-			{!isLastStep && <button onClick={handleNext}>Next</button>}
-			{isLastStep && (
-				<div>
-					{authenticated && (
-						<button onClick={handleSubmitResponses}>Save</button>
-					)}
-					<button onClick={copyToClipboard}>Copy to Clipboard</button>
-				</div>
-			)}
+			<div className="nav-buttons">
+				{!isFirstStep && (
+					<button className="nav-button" onClick={handlePrevious}>
+						Previous
+					</button>
+				)}
+				{!isLastStep && (
+					<button className="nav-button" onClick={handleNext}>
+						Next
+					</button>
+				)}
+				{isLastStep && (
+					<div>
+						{authenticated && (
+							<button className="send-button" onClick={handleSubmitResponses}>
+								Save
+							</button>
+						)}
+						<button onClick={copyToClipboard}>Copy to Clipboard</button>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

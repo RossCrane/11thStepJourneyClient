@@ -55,7 +55,7 @@ const Chats: React.FC = () => {
 								<UserChat chat={chat} user={user} />
 							</Box>
 						))}
-						<Typography>List</Typography>
+						<Typography></Typography>
 					</Stack>
 					<ChatBox />
 				</Stack>
