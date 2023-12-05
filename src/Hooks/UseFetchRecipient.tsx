@@ -17,15 +17,16 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 	const [error, setError] = useState<any>(null);
 
 	const recipientId = chat?.members.find((id) => id !== user?.id);
-
+	// console.log(recipientId, 'recipientId here');
 	// This is getting an error I think
 	useEffect(() => {
 		const getUser = async () => {
 			if (!recipientId) return null;
 			// may need to change the url
-			const response = await getRequest(`${BASE_URL}/find/${recipientId}`);
+			const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
 			//const data = await response.json();
-			if (!response.error) {
+			// console.log(response, 'response here');
+			if (response.error) {
 				return setError(response);
 			}
 			setRecipientUser(response);

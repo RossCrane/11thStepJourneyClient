@@ -57,6 +57,9 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 		return shortText;
 	};
 
+	// console.log('recipientUser', recipientUser);
+	// console.log('user', user);
+
 	return (
 		<div>
 			<Stack
@@ -83,7 +86,7 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 					</Box>
 					<Box className="text-content">
 						<Typography variant="subtitle1">
-							Name, {recipientUser?.firstname}
+							Name, {recipientUser?.firstName}
 						</Typography>
 						<Typography className="text" variant="body2">
 							{latestMessage?.text && (

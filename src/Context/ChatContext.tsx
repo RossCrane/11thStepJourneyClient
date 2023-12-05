@@ -29,7 +29,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	const [messagesError, setMessagesError] = useState<any>(null); // review later
 	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null); // review later
 	const [newMessage, setNewMessage] = useState<Message | null>(null); // review later
-	const [socket, setSocket] = useState<any>(null);
+	//const [socket, setSocket] = useState<any>(null);
 	const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
 	const [notifications, setNotifications] = useState<Message[] | null>(null); // review later
 	const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -39,26 +39,24 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 	//initialize socket
 
-	useEffect(() => {
-		const newSocket = io(`${SOCKET_URL}`);
-		setSocket(newSocket);
-
-		return () => {
-			newSocket.disconnect();
-		};
-	}, [user]);
+	// useEffect(() => {
+	// 	console.log('socket url', SOCKET_URL);
+	// }, [user]);
 
 	// add user to online users
+	let socket: any = null;
+
 	useEffect(() => {
-		if (socket === null) return;
+		socket = io(`${SOCKET_URL}`);
 		socket.emit('addNewUser', user?._id);
 		socket.on('getOnlineUsers', (res: User[]) => {
 			setOnlineUsers(res);
 		});
 		return () => {
 			socket.off('getOnlineUsers');
+			socket.disconnect();
 		};
-	}, [socket]);
+	}, [user, socket]);
 
 	// send message
 	useEffect(() => {
@@ -203,11 +201,12 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 	const createChat = useCallback(async (firstId: string, secondId: string) => {
 		const response = await postRequest(
-			`${BASE_URL}/chats`,
-			JSON.stringify({
+			// `${BASE_URL}/chats`,
+			`/chat`,
+			{
 				firstId,
 				secondId,
-			})
+			}
 		);
 
 		if (response.error) {

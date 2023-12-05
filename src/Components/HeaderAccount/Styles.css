@@ -1,5 +1,16 @@
 .header-account-container {
 	margin-right: 20px;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #357f7c;
+	padding: 10px 1.5em;
+	position: sticky;
+	max-width: 100%;
+	/* border: blue 1px solid; */
+	max-height: 7vh;
+	min-height: 70px;
 }
 
 .icon-button {

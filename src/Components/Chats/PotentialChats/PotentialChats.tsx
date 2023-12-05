@@ -25,6 +25,8 @@ const PotentialChats: React.FC<PotentialChatsProps> = () => {
 		return <div>No user data available</div>;
 	}
 
+	// console.log(potentialChats, 'potential chats here');
+
 	return (
 		<>
 			<div className="all-users">

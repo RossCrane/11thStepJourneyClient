@@ -1,7 +1,9 @@
+/*
+Old Styles
 .prayer-accordion {
 	height: 100%;
 	width: 100%;
-	overflow-y: auto; /* Add this to enable scrolling if the content overflows */
+	overflow-y: auto;
 }
 
 .accordion {
@@ -50,6 +52,60 @@
 		font-size: 16px;
 	}
 
+	.accordion {
+		width: 100%;
+	}
+} */
+
+/* New Styles */
+.prayer-accordion {
+	height: 100%;
+	width: 100%;
+	overflow-y: auto; /* Add this to enable scrolling if the content overflows */
+	color: black;
+}
+.accordion {
+	max-width: 88%;
+	min-width: 88%;
+	margin: 1.5rem auto;
+}
+.accordion-title {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border: none;
+	border-radius: 30px;
+	cursor: pointer;
+	background-color: #3a9d9a;
+	min-height: 4vh;
+	margin-bottom: 5px;
+	align-items: center;
+	text-align: center;
+	color: black;
+}
+.accortian-title-text {
+	font-size: 1.5rem;
+	text-align: center;
+	flex-grow: 1;
+	color: black;
+}
+.accordion-title:hover {
+	background-color: #357f7c;
+}
+.accordion-title,
+.accordion-content {
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	padding-left: 0.25rem;
+	padding-right: 0.25rem;
+	font-size: 18px;
+}
+.accordion-content {
+}
+@media screen and (max-width: 600px) {
+	body {
+		font-size: 16px;
+	}
 	.accordion {
 		width: 100%;
 	}

@@ -6,6 +6,7 @@ import { useFetchRecipientUser } from '../../../Hooks/UseFetchRecipient';
 import { Stack } from '@mui/material';
 import moment from 'moment';
 import InputEmoji from 'react-input-emoji';
+import { BASE_URL, getRequest } from '../../../Services/MessageService';
 // import SendIcon from '@mui/icons-material/Send';
 
 interface ChatBoxProps {
@@ -21,11 +22,31 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 		sendTextMessage,
 		// messagesError,
 	} = useContext(ChatContext) as any; // Replace 'any' with the actual type
-	const { recipientUser } = useFetchRecipientUser(currentChat, user) as any; // Replace 'any' with the actual type
+	//console.log(currentChat, 'current chat here');
+	//console.log(user, 'user here');
+	//const { recipientUser } = useFetchRecipientUser(currentChat, user) as any; // Replace 'any' with the actual type
 	const [textMessage, setTextMessage] = useState<string>('');
 	const scroll = useRef<HTMLDivElement>(null);
+	// const [recipientId, setRecipientId] = useState<string | null>(null);
+	const [recipientUser, setRecipientUser] = useState<any>(null);
 
-	// console.log(textMessage, 'text message here');
+	const getUser = async () => {
+		const recipientId = currentChat?.members.find((id) => id !== user?.id);
+		if (!recipientId) return null;
+
+		const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
+
+		if (response.error) {
+			return console.log('error getting user');
+		}
+		setRecipientUser(response);
+	};
+
+	useEffect(() => {
+		getUser();
+		// console.log('chat changing');
+	}, [currentChat]);
+
 	useEffect(() => {
 		scroll.current?.scrollIntoView({ behavior: 'smooth' });
 	}),

@@ -40,29 +40,27 @@ const Chats: React.FC = () => {
 	// console.log(userChats, 'user chats here');
 
 	return (
-		<div>
-			<Container>
-				<PotentialChats />
-				{userChats && userChats.length > 0 && (
-					<Stack direction="row" spacing={4}>
-						<Stack
-							className="message-box"
-							sx={{ flexGrow: 0, paddingRight: 3 }}
-							spacing={3}
-						>
-							{isUserChatsLoading && <Typography>Loading...</Typography>}
-							{userChats.map((chat, index) => (
-								<Box key={index} onClick={() => updateCurrentChat(chat)}>
-									<UserChat chat={chat} user={user} />
-								</Box>
-							))}
-							<Typography>List</Typography>
-						</Stack>
-						<ChatBox />
+		<Container>
+			<PotentialChats />
+			{userChats && userChats.length > 0 && (
+				<Stack direction="row" spacing={4}>
+					<Stack
+						className="message-box"
+						sx={{ flexGrow: 1.7, paddingRight: 3 }}
+						spacing={3}
+					>
+						{isUserChatsLoading && <Typography>Loading...</Typography>}
+						{userChats.map((chat, index) => (
+							<Box key={index} onClick={() => updateCurrentChat(chat)}>
+								<UserChat chat={chat} user={user} />
+							</Box>
+						))}
+						<Typography>List</Typography>
 					</Stack>
-				)}
-			</Container>
-		</div>
+					<ChatBox />
+				</Stack>
+			)}
+		</Container>
 	);
 };
 

@@ -12,13 +12,18 @@ body {
 }
 
 .outer-container {
-	box-sizing: content-box;
-	max-width: 1260px;
-	background-color: transparent;
-	height: 100vh;
+	display: flex; /* Use flexbox to layout children */
+	flex-direction: column; /* Stack children vertically */
+	align-items: stretch; /* Stretch children to fill the width */
+	justify-content: center; /* Center children vertically */
+	height: 100vh; /* Full viewport height */
+	margin: 0 auto; /* Center the container */
+	max-width: 1260px; /* Maximum width */
+	background-color: transparent; /* No background */
+	padding: 0 15px; /* Add some padding on the sides */
 }
 
-.inner-content-container {
+/* .inner-content-container {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -26,4 +31,23 @@ body {
 	align-items: center;
 	height: 89%;
 	width: 100%;
+} */
+
+.inner-content-container {
+	display: flex; /* Use flexbox to layout children */
+	flex-direction: row; /* Layout children side by side */
+	align-items: center; /* Align children to the start of the cross axis */
+	justify-content: space-between; /* Space out children */
+	height: 89%; /* Fill the height of the parent */
+	width: 100%; /* Fill the width of the parent */
+}
+
+@media (max-width: 768px) {
+	.outer-container {
+		flex-direction: column; /* Stack children vertically on small screens */
+	}
+
+	.inner-content-container {
+		flex-direction: column; /* Stack children vertically on small screens */
+	}
 }

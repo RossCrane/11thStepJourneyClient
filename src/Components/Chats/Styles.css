@@ -56,16 +56,30 @@ body {
 }
 
 /* Chat Box */
-.chat-box {
+/* .chat-box {
 	max-height: calc(100vh - 10rem);
 	overflow-y: auto;
 	background: rgb(25, 25, 25);
 	border-radius: 10px;
 }
 
-.messages-box {
+.message-box {
 	height: 85vh;
 	flex-grow: 0;
+} */
+
+.message-box {
+	flex: 1; /* Take up the remaining space */
+	overflow-y: auto; /* Enable scrolling for overflowing content */
+	margin-right: 1rem; /* Add margin between message box and chat box */
+	/* Rest of your styles */
+}
+
+.chat-box {
+	flex: 3; /* Take up more space than message box */
+	display: flex; /* Use flexbox for internal layout */
+	flex-direction: column; /* Stack children vertically */
+	/* Rest of your styles */
 }
 
 /* Chat Header */
