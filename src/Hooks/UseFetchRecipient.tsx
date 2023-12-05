@@ -18,6 +18,7 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 
 	const recipientId = chat?.members.find((id) => id !== user?.id);
 
+	// This is getting an error I think
 	useEffect(() => {
 		const getUser = async () => {
 			if (!recipientId) return null;

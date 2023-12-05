@@ -37,7 +37,7 @@ const Chats: React.FC = () => {
 		return <div>No chat context available</div>;
 	}
 
-	console.log(userChats, 'user chats here');
+	// console.log(userChats, 'user chats here');
 
 	return (
 		<div>

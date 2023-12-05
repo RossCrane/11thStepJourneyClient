@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Styles.css';
 import { useAuth } from '../../../Context/AuthContext';
 import { ChatContext } from '../../../Context/ChatContext';
@@ -23,8 +23,13 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 	} = useContext(ChatContext) as any; // Replace 'any' with the actual type
 	const { recipientUser } = useFetchRecipientUser(currentChat, user) as any; // Replace 'any' with the actual type
 	const [textMessage, setTextMessage] = useState<string>('');
+	const scroll = useRef<HTMLDivElement>(null);
 
-	console.log(textMessage, 'text message here');
+	// console.log(textMessage, 'text message here');
+	useEffect(() => {
+		scroll.current?.scrollIntoView({ behavior: 'smooth' });
+	}),
+		[messages];
 
 	if (!recipientUser)
 		return (
@@ -55,6 +60,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 								className={
 									message?.senderId === user?._id ? 'message self' : 'message'
 								}
+								ref={scroll}
 							>
 								<span>{message.text}</span>
 								<span className="message-footer">

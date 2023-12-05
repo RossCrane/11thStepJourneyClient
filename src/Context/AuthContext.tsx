@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
 	const [authenticated, setAuthenticated] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
-	console.log('user', user);
+	//console.log('user', user);
 
 	useEffect(() => {
 		const checkAuthentication = async () => {

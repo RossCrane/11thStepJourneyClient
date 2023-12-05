@@ -1,22 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import { useFetchRecipientUser } from '../../Hooks/UseFetchRecipient';
 import './Styles.css';
+import { ChatContext } from '../../Context/ChatContext';
+import { ChatContextType, User, Chat } from '../../Types/Types';
+import { unreadNotificationsFunc } from '../../Utils/UnreadNotifications';
+import { useFetchLatestMessage } from '../../Hooks/UseFetchLatestMessage';
+import moment from 'moment';
 // import image from '../../Assets/Images/placeholder.png';
-
-interface User {
-	_id: string;
-	id: string;
-	firstname?: string;
-	// review later
-}
-
-interface Chat {
-	_id: string;
-	members: string[];
-	firstname?: string;
-	// review later
-}
 
 interface UserChatProps {
 	chat: Chat;
@@ -28,17 +19,42 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 
 	const { recipientUser } = useFetchRecipientUser(validChat, user);
 	//const { recipientUser } = useFetchRecipientUser(chat, user);
+	const { onlineUsers, notifications, markThisUserNotificationsAsRead } =
+		useContext(ChatContext) as ChatContextType;
+	const { latestMessage } = useFetchLatestMessage(chat);
 
-	console.log(recipientUser, 'recipient user here');
+	const unreadNotifications = unreadNotificationsFunc(notifications);
+	const thisUserNotifications = unreadNotifications?.filter(
+		(n) => n.senderId == recipientUser?._id
+	);
+
+	const isOnline = onlineUsers?.some(
+		(user) => user?.userId === recipientUser?._id
+	);
+
+	// console.log(recipientUser, 'recipient user here');
 
 	const handleClick = () => {
-		console.log('Stack clicked');
+		if (thisUserNotifications?.length > 0) {
+			markThisUserNotificationsAsRead(thisUserNotifications, notifications);
+
+			//console.log('Stack clicked');
+		}
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			handleClick();
 		}
+	};
+
+	const truncateText = (text) => {
+		let shortText = text?.substring(0, 20);
+
+		if (text.length > 20) {
+			shortText = shortText + '...';
+		}
+		return shortText;
 	};
 
 	return (
@@ -70,7 +86,9 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 							Name, {recipientUser?.firstname}
 						</Typography>
 						<Typography className="text" variant="body2">
-							Text Message
+							{latestMessage?.text && (
+								<span>{truncateText(latestMessage?.text)}</span>
+							)}
 						</Typography>
 					</Box>
 				</Box>
@@ -78,12 +96,19 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 					sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end' }}
 				>
 					<Typography className="date" variant="body2">
-						12/12/2022
+						{moment(latestMessage?.createdAt).calendar()}
 					</Typography>
-					<Typography className="this-user-notifications" variant="body2">
-						2
+					<Typography
+						className={
+							thisUserNotifications?.length > 0 ? 'this-user-notifications' : ''
+						}
+						variant="body2"
+					>
+						{thisUserNotifications?.length > 0
+							? thisUserNotifications.length
+							: ''}
 					</Typography>
-					<span className="user-online"></span>
+					<span className={isOnline ? 'user-online' : ''}></span>
 				</Box>
 			</Stack>
 			User Chat
