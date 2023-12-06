@@ -18,6 +18,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 	const {
 		currentChat,
 		messages,
+		newMessage,
 		isMessagesLoading,
 		sendTextMessage,
 		socket,
@@ -27,18 +28,24 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 	// console.log(messages, 'messages here');
 	//console.log(currentChat, 'current chat here');
 	//console.log(user, 'user here');
-	//const { recipientUser } = useFetchRecipientUser(currentChat, user) as any; // Replace 'any' with the actual type
 	const [textMessage, setTextMessage] = useState<string>('');
 	const scroll = useRef<HTMLDivElement>(null);
 	// const [recipientId, setRecipientId] = useState<string | null>(null);
 	const [recipientUser, setRecipientUser] = useState<any>(null);
+	const [recipientId, setRecipientId] = useState<string | null>(null);
 
 	const getUser = async () => {
-		const recipientId = currentChat?.members.find((id) => id !== user?.id);
-		if (!recipientId) return null;
+		const foundRecipientId = currentChat?.members.find(
+			(id) => id !== user?._id
+		);
+		if (!foundRecipientId) return null;
+
+		setRecipientId(foundRecipientId);
+
+		console.log('user in chatbox', user?._id);
 
 		const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
-		console.log(response, 'response here');
+		// console.log(response, 'response here');
 
 		if (response.error) {
 			return console.log('error getting user');
@@ -48,8 +55,8 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 
 	useEffect(() => {
 		getUser();
-		// console.log('chat changing');
-	}, [currentChat]);
+		console.log(recipientId, 'recipient id here on change');
+	}, [currentChat, newMessage]);
 
 	useEffect(() => {
 		scroll.current?.scrollIntoView({ behavior: 'smooth' });
@@ -66,7 +73,20 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 	if (isMessagesLoading)
 		return <p style={{ textAlign: 'center', width: 'auto' }}>Loading...</p>;
 
-	// console.log(messages, 'messages here');
+	const handleSendMessage = () => {
+		if (currentChat && currentChat._id && recipientId) {
+			setRecipientId(recipientId);
+			sendTextMessage(
+				textMessage,
+				user,
+				currentChat._id,
+				setTextMessage,
+				recipientId
+			);
+		} else {
+			console.log('Current chat, chat ID, or recipient ID is not defined');
+		}
+	};
 
 	return (
 		<>
@@ -80,9 +100,9 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 							<Stack
 								key={index}
 								sx={{
-									alignSelf: 'flex-end',
 									flexGrow: 0,
-									...(message?.senderId === user?._id && { className: 'self' }),
+									alignSelf:
+										message?.senderId === user?._id ? 'flex-end' : 'flex-start',
 								}}
 								className={
 									message?.senderId === user?._id ? 'message self' : 'message'
@@ -108,17 +128,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 						fontFamily="nunita"
 						borderColor="rgba(72, 112, 223, 0.2)"
 					/>
-					<button
-						className="send-btn"
-						onClick={() =>
-							sendTextMessage(
-								textMessage,
-								user,
-								currentChat._id,
-								setTextMessage
-							)
-						}
-					>
+					<button className="send-btn" onClick={handleSendMessage}>
 						Send
 						{/* <SendIcon /> */}
 					</button>

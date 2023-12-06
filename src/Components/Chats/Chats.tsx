@@ -38,6 +38,16 @@ const Chats: React.FC = () => {
 	}
 
 	// console.log(userChats, 'user chats here');
+	// console.log('chat here', chat);
+
+	const handleChatClick = (chat: Chat) => {
+		if (chat) {
+			console.log('chat clicked', chat);
+			updateCurrentChat(chat);
+		} else {
+			console.log('Failed to update current chat: invalid chat data');
+		}
+	};
 
 	return (
 		<Container>
@@ -51,7 +61,7 @@ const Chats: React.FC = () => {
 					>
 						{isUserChatsLoading && <Typography>Loading...</Typography>}
 						{userChats.map((chat, index) => (
-							<Box key={index} onClick={() => updateCurrentChat(chat)}>
+							<Box key={index} onClick={() => handleChatClick(chat)}>
 								<UserChat chat={chat} user={user} />
 							</Box>
 						))}

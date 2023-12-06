@@ -31,20 +31,14 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	const [messagesError, setMessagesError] = useState<any>(null); // review later
 	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null); // review later
 	const [newMessage, setNewMessage] = useState<Message | null>(null); // review later
-	// const [socket, setSocket] = useState<any>(null);
 	const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
 	const [notifications, setNotifications] = useState<Message[] | null>([]);
 	// review later
 	const [allUsers, setAllUsers] = useState<User[]>([]);
 
 	// useEffect(() => {
-	// 	const newSocket = io(`${SOCKET_URL}`);
-	// 	setSocket(newSocket);
-
-	// 	return () => {
-	// 		newSocket.disconnect();
-	// 	};
-	// }, [user]);
+	// 	const socket = io(`${SOCKET_URL}`);
+	// }, []);
 
 	// add user to online users
 	useEffect(() => {
@@ -57,22 +51,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 			socket.off('getOnlineUsers');
 		};
 	}, [socket]);
-
-	// let socket: any = null;
-
-	// Start Code with Gerry
-	// useEffect(() => {
-	// 	socket = io(`${SOCKET_URL}`);
-	// 	socket.emit('addNewUser', user?._id);
-	// 	socket.on('getOnlineUsers', (res: User[]) => {
-	// 		setOnlineUsers(res);
-	// 	});
-	// 	return () => {
-	// 		socket.off('getOnlineUsers');
-	// 		socket.disconnect();
-	// 	};
-	// }, [user, socket]);
-	// END Code with Gerry
 
 	// send message
 	// useEffect(() => {
@@ -90,7 +68,8 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		socket.on('getMessage', (res) => {
 			console.log(res, 'socket res here');
 
-			if (res.recipientId === user._id) return;
+			console.log('res.recipientId', res.recipientId, 'user._id', user._id);
+			if (res.recipientId !== user._id) return;
 
 			// here add more that just text
 			setMessages((prev) => [...(prev || []), { text: res.textMessage }]);
@@ -114,7 +93,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 	useEffect(() => {
 		const getUsers = async () => {
-			console.log('getting users');
 			const response = await getRequest(`${BASE_URL}/users`);
 			if (response.error) {
 				return console.log(`Error fetching users: `, response);
@@ -154,14 +132,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				}
 				setUserChats(response);
 			}
-			// try {
-			// 	const response = await getRequest(`${BASE_URL}/chats`, user.token);
-			// 	setUserChats(response);
-			// 	setIsUserChatsLoading(false);
-			// } catch (error) {
-			// 	setUserChatsError(error);
-			// 	setIsUserChatsLoading(false);
-			// }
 		};
 		getUserChats();
 	}, [user, notifications]);
@@ -184,24 +154,21 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		getMessages();
 	}, [currentChat]);
 
-	const updateCurrentChat = useCallback(
-		(chat: Chat) => {
-			console.log('chat updated');
-			setCurrentChat(chat);
-		},
-		[currentChat]
-	);
+	const updateCurrentChat = useCallback((chat: Chat) => {
+		setCurrentChat(chat);
+	}, []);
 
 	const sendTextMessage = useCallback(
 		async (
 			textMessage: string,
 			sender: User,
 			currentChatId: string,
-			setTextMessage: (message: string) => void
+			setTextMessage: (message: string) => void,
+			recipientId: string
 		) => {
 			if (!textMessage) return console.log(`No message to send`);
 
-			console.log('currentChatId', currentChatId);
+			console.log('currentChatId', currentChatId, 'sender', sender);
 
 			const response = await postRequest(`/message`, {
 				chatId: currentChatId,
@@ -215,11 +182,16 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 			// if (socket === null) return;
 
-			console.log('currentchat', currentChat);
-			const recipientId = currentChat?.members.find((id) => id !== user?.id);
-			console.log('recipientId', recipientId);
+			// const recipientId = currentChat?.members.find((id) => id !== user?.id);
+			console.log('recipientId', recipientId, 'currentchat', currentChat);
 
 			socket.emit('sendMessage', { textMessage, recipientId });
+
+			// socket.emit('sendMessage', {
+			// 	chatId: currentChatId,
+			// 	senderId: sender._id,
+			// 	text: textMessage,
+			// });
 
 			// handle with message.length
 			setNewMessage(response as Message); // review later

@@ -11,23 +11,17 @@ interface User {
 }
 
 export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
-	// todo: use a more specific type if available
 	const [recipientUser, setRecipientUser] = useState<any>(null);
-	//todo: use a more specific type if available
 	const [error, setError] = useState<any>(null);
 
 	const recipientId = chat?.members.find((id) => id !== user?.id);
 	// console.log(recipientId, 'recipientId here');
-	// This is getting an error I think
 	useEffect(() => {
 		const getUser = async () => {
 			if (!recipientId) return null;
-			// may need to change the url
 			// const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
 			const response = await getRequest(`${BASE_URL}/users`);
-			//const data = await response.json();
-			// console.log(response, 'response here');
-			console.log(response, 'response here');
+
 			if (response.error) {
 				return setError(response);
 			}
@@ -36,7 +30,7 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 		getUser();
 	}, [recipientId]);
 
-	return { recipientUser }; // May need to delete error and manage it later.
+	return { recipientUser };
 };
 
 export default useFetchRecipientUser;
