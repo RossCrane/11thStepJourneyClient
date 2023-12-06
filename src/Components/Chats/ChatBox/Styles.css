@@ -67,6 +67,7 @@ body {
 	flex: 3; /* Take up more space than message box */
 	display: flex; /* Use flexbox for internal layout */
 	flex-direction: column; /* Stack children vertically */
+	overflow: hidden;
 	/* Rest of your styles */
 }
 
@@ -95,8 +96,8 @@ body {
 
 /* Messages */
 .messages {
-	max-height: calc(100vh - 15rem);
-	overflow-y: auto;
+	max-height: calc(100vh - 25rem);
+	overflow-y: none;
 	padding: 0 2rem;
 	min-height: 84%;
 }

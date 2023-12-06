@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { links } from '../../Utils/NavLinks';
 import './Styles.css';
+import { useAuth } from '../../Context/AuthContext';
+import message_icon from '../../assets/message_icon.svg';
 
 const Navbar = () => {
+	const { authenticated } = useAuth();
 	return (
 		<ul className="navbar-container">
 			{links.map((link) => (
@@ -16,6 +19,12 @@ const Navbar = () => {
 					</div>
 				</li>
 			))}
+			{authenticated && (
+				<Link to={'/chat'}>
+					<img className="icons" src={message_icon} alt="chat" />
+					<span className="tooltip-text">Chat</span>
+				</Link>
+			)}
 		</ul>
 	);
 };

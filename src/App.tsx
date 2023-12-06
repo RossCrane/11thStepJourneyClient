@@ -75,6 +75,10 @@ const App: React.FC = () => {
 								)
 							}
 						/>
+						<Route
+							path="/chat"
+							element={authenticated ? <Chats /> : <LoginRegister />}
+						/>
 						{/* For testing purposes */}
 						<Route path="/chat" element={<Chats />} />
 						{/* end testing purposes */}
