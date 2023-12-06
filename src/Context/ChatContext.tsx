@@ -8,6 +8,8 @@ if (!SOCKET_URL) {
 	throw new Error('Missing Socket URL');
 }
 
+const socket = io(`${SOCKET_URL}`);
+
 export const ChatContext = createContext<ChatContextType | null>(null);
 
 interface ChatProviderProps {
@@ -29,19 +31,20 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	const [messagesError, setMessagesError] = useState<any>(null); // review later
 	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null); // review later
 	const [newMessage, setNewMessage] = useState<Message | null>(null); // review later
-	const [socket, setSocket] = useState<any>(null);
+	// const [socket, setSocket] = useState<any>(null);
 	const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
-	const [notifications, setNotifications] = useState<Message[] | null>(null); // review later
+	const [notifications, setNotifications] = useState<Message[] | null>([]);
+	// review later
 	const [allUsers, setAllUsers] = useState<User[]>([]);
 
-	useEffect(() => {
-		const newSocket = io(`${SOCKET_URL}`);
-		setSocket(newSocket);
+	// useEffect(() => {
+	// 	const newSocket = io(`${SOCKET_URL}`);
+	// 	setSocket(newSocket);
 
-		return () => {
-			newSocket.disconnect();
-		};
-	}, [user]);
+	// 	return () => {
+	// 		newSocket.disconnect();
+	// 	};
+	// }, [user]);
 
 	// add user to online users
 	useEffect(() => {
@@ -72,29 +75,32 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 	// END Code with Gerry
 
 	// send message
-	useEffect(() => {
-		if (socket === null) return;
+	// useEffect(() => {
+	// 	if (socket === null) return;
 
-		const recipientId = currentChat?.members.find((id) => id !== user?.id);
+	// 	const recipientId = currentChat?.members.find((id) => id !== user?.id);
 
-		socket.emit('sendMessage', { ...newMessage, recipientId });
-	}, [newMessage]);
+	// 	socket.emit('sendMessage', { ...newMessage, recipientId });
+	// }, [newMessage]);
 
 	// receive message and notifications
 	useEffect(() => {
 		if (socket === null) return;
 
 		socket.on('getMessage', (res) => {
-			if (currentChat?._id !== res.chatId) return;
+			console.log(res, 'socket res here');
 
-			setMessages((prev) => [...prev, res]);
+			if (res.recipientId === user._id) return;
+
+			// here add more that just text
+			setMessages((prev) => [...(prev || []), { text: res.textMessage }]);
 		});
 
 		socket.on('getNotification', (res) => {
 			const isChatOpen = currentChat?.members.some((id) => id === res.senderId);
 
 			if (isChatOpen) {
-				setNotifications((prev) => [{ ...res, isRead: true }, ...prev]);
+				setNotifications((prev) => [{ ...res, isRead: true }, ...(prev || [])]);
 			} else {
 				setNotifications((prev) => [res, ...prev]);
 			}
@@ -127,7 +133,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				//
 				return !isChatCreated;
 			});
-			console.log('pChats', pChats);
+			// console.log('pChats', pChats);
 			setPotentialChats(pChats);
 			setAllUsers(response);
 		};
@@ -145,7 +151,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 				if (response.error) {
 					return setUserChatsError(response);
-					setIsUserChatsLoading(false);
 				}
 				setUserChats(response);
 			}
@@ -179,9 +184,13 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		getMessages();
 	}, [currentChat]);
 
-	const updateCurrentChat = useCallback((chat: Chat) => {
-		setCurrentChat(chat);
-	}, []);
+	const updateCurrentChat = useCallback(
+		(chat: Chat) => {
+			console.log('chat updated');
+			setCurrentChat(chat);
+		},
+		[currentChat]
+	);
 
 	const sendTextMessage = useCallback(
 		async (
@@ -191,6 +200,8 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 			setTextMessage: (message: string) => void
 		) => {
 			if (!textMessage) return console.log(`No message to send`);
+
+			console.log('currentChatId', currentChatId);
 
 			const response = await postRequest(`/message`, {
 				chatId: currentChatId,
@@ -202,6 +213,15 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				return setSendTextMessageError(response);
 			}
 
+			// if (socket === null) return;
+
+			console.log('currentchat', currentChat);
+			const recipientId = currentChat?.members.find((id) => id !== user?.id);
+			console.log('recipientId', recipientId);
+
+			socket.emit('sendMessage', { textMessage, recipientId });
+
+			// handle with message.length
 			setNewMessage(response as Message); // review later
 			setMessages(
 				(prevMessages) => [...(prevMessages || []), response] as Message[]

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import { useFetchRecipientUser } from '../../Hooks/UseFetchRecipient';
 import './Styles.css';
@@ -8,8 +8,7 @@ import { unreadNotificationsFunc } from '../../Utils/UnreadNotifications';
 import { useFetchLatestMessage } from '../../Hooks/UseFetchLatestMessage';
 import moment from 'moment';
 import defaultProfileIcon from '../../assets/default_profile_icon.svg';
-
-// import image from '../../Assets/Images/placeholder.png';
+import { BASE_URL, getRequest } from '../../Services/MessageService';
 
 interface UserChatProps {
 	chat: Chat;
@@ -17,12 +16,17 @@ interface UserChatProps {
 }
 
 const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
+	const [currentChat, setCurrentChat] = useState<Chat[] | null>(null);
 	const validChat = chat && Array.isArray(chat.members) ? chat : null;
 
 	const { recipientUser } = useFetchRecipientUser(validChat, user);
 	//const { recipientUser } = useFetchRecipientUser(chat, user);
-	const { onlineUsers, notifications, markThisUserNotificationsAsRead } =
-		useContext(ChatContext) as ChatContextType;
+	const {
+		onlineUsers,
+		notifications,
+		markThisUserNotificationsAsRead,
+		updateCurrentChat,
+	} = useContext(ChatContext) as ChatContextType;
 	const { latestMessage } = useFetchLatestMessage(chat);
 
 	const unreadNotifications = unreadNotificationsFunc(notifications);
@@ -34,19 +38,11 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 		(user) => user?.userId === recipientUser?._id
 	);
 
-	// console.log(recipientUser, 'recipient user here');
-
 	const handleClick = () => {
 		if (thisUserNotifications?.length > 0) {
 			markThisUserNotificationsAsRead(thisUserNotifications, notifications);
-
-			//console.log('Stack clicked');
 		}
 	};
-
-	// const getName = () => {
-	// 	const nameAndId = getUsers();
-	// };
 
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter' || e.key === ' ') {
@@ -63,8 +59,25 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 		return shortText;
 	};
 
-	console.log('recipientUser', recipientUser);
-	// console.log('user', user);
+	useEffect(() => {
+		const getUserChats = async () => {
+			if (user?._id) {
+				const response = await getRequest(`${BASE_URL}/chats`);
+
+				if (response.error) {
+					return response;
+				}
+
+				// updateCurrentChat(
+				// 	response.find((chatRes) => chatRes.chatId === chat._id)
+				// );
+				setCurrentChat(response.find((chatRes) => chatRes.chatId === chat._id));
+			}
+		};
+		getUserChats();
+	}, []);
+
+	// console.log('userChats', userChats);
 
 	return (
 		<div>
@@ -91,7 +104,11 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 					</Box>
 					<Box className="text-content">
 						<Typography variant="subtitle1" align="left">
-							Name, {recipientUser?.firstName}
+							{' '}
+							{
+								currentChat?.members?.find((member) => member._id !== user?._id)
+									?.firstName
+							}
 						</Typography>
 						<Typography className="text" variant="body2" align="left">
 							{latestMessage?.text && (

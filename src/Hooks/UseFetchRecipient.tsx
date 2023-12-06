@@ -23,9 +23,11 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 		const getUser = async () => {
 			if (!recipientId) return null;
 			// may need to change the url
-			const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
+			// const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
+			const response = await getRequest(`${BASE_URL}/users`);
 			//const data = await response.json();
 			// console.log(response, 'response here');
+			console.log(response, 'response here');
 			if (response.error) {
 				return setError(response);
 			}
@@ -34,7 +36,7 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 		getUser();
 	}, [recipientId]);
 
-	return { recipientUser, error }; // May need to delete error and manage it later.
+	return { recipientUser }; // May need to delete error and manage it later.
 };
 
 export default useFetchRecipientUser;

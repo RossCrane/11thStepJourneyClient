@@ -23,6 +23,8 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 		socket,
 		// messagesError,
 	} = useContext(ChatContext) as any; // Replace 'any' with the actual type
+
+	// console.log(messages, 'messages here');
 	//console.log(currentChat, 'current chat here');
 	//console.log(user, 'user here');
 	//const { recipientUser } = useFetchRecipientUser(currentChat, user) as any; // Replace 'any' with the actual type
@@ -63,6 +65,8 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 
 	if (isMessagesLoading)
 		return <p style={{ textAlign: 'center', width: 'auto' }}>Loading...</p>;
+
+	// console.log(messages, 'messages here');
 
 	return (
 		<>
