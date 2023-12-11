@@ -20,10 +20,12 @@ const Navbar = () => {
 				</li>
 			))}
 			{authenticated && (
-				<Link to={'/chat'}>
-					<img className="icons" src={message_icon} alt="chat" />
-					<span className="tooltip-text">Chat</span>
-				</Link>
+				<div className="tooltip-container">
+					<Link to={'/chat'}>
+						<img className="icons" src={message_icon} alt="chat" />
+						<span className="tooltip-text">{'Chat'}</span>
+					</Link>
+				</div>
 			)}
 		</ul>
 	);

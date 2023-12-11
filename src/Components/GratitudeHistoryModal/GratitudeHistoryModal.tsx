@@ -39,7 +39,9 @@ const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
 
 	return (
 		<div className={`gratitude-history-modal ${isOpen ? 'show' : ''}`}>
-			<button onClick={onClose}>Close</button>
+			<button className="close-button" onClick={onClose}>
+				Close
+			</button>
 			<h3>My Gratitude History:</h3>
 			{Object.entries(groupedHistory).map(([date, items]) => (
 				<div key={date} className="gratitude-entry">

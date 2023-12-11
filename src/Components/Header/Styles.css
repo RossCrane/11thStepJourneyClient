@@ -52,6 +52,7 @@ Old Code:
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	border-radius: 25px;
 	background-color: #357f7c;
 	padding: 10px 1.5em;
 	position: sticky;
@@ -86,4 +87,9 @@ Old Code:
 	color: black; /* Set text color */
 	font-size: 1.5em; /* Set font size */
 	padding-left: 0.5em;
+	text-decoration: none;
+}
+
+.header-title-link {
+	text-decoration: none;
 }

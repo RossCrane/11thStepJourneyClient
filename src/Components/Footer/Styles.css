@@ -44,6 +44,7 @@
 	position: relative;
 	height: 3vh;
 	max-width: 100%;
+	border-radius: 13px;
 	/* border: blue 1px solid; */
 	position: sticky;
 }

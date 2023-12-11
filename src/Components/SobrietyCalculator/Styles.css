@@ -53,7 +53,7 @@ Old styles for sobriety calculator
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	color: black;
+	color: white;
 }
 .sobriety-calculator-input {
 	width: 100%;
@@ -77,4 +77,20 @@ Old styles for sobriety calculator
 	font-size: 26px;
 	margin-top: 10px;
 	color: #555;
+}
+.save-date-button {
+	background-color: #3a9d9a;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.save-date-button:hover {
+	background-color: #357f7c;
+}
+#h2 {
+	color: white;
 }

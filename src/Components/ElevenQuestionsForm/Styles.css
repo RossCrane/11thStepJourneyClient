@@ -53,3 +53,30 @@
 .send-button:hover {
 	background-color: #357f7c;
 }
+
+.copy-button {
+	background-color: #3a9d9a;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.copy-button:hover {
+	background-color: #357f7c;
+}
+.view-history-button {
+	background-color: #3a9d9a;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.view-history-button:hover {
+	background-color: #357f7c;
+}

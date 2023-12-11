@@ -127,8 +127,12 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 
 	return (
 		<div className="gratitude-list-container">
-			{authenticated && <button onClick={toggleModal}>View History</button>}
-			<button onClick={copyGratitudesToClipboard}>
+			{authenticated && (
+				<button className="view-history-button" onClick={toggleModal}>
+					View History
+				</button>
+			)}
+			<button className="copy-clip-button" onClick={copyGratitudesToClipboard}>
 				Copy Gratitudes to Clipboard
 			</button>
 			<GratitudeHistoryModal

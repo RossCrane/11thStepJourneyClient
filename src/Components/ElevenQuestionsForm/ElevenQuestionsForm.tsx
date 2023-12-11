@@ -136,7 +136,11 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 
 	return (
 		<div className="eleven-questions-form-container">
-			{authenticated && <button onClick={toggleModal}>View History</button>}
+			{authenticated && (
+				<button className="view-history-button" onClick={toggleModal}>
+					View History
+				</button>
+			)}
 			<ElevenQuestionsHistoryModal
 				isOpen={isModalOpen}
 				onClose={toggleModal}
@@ -182,7 +186,9 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 								Save
 							</button>
 						)}
-						<button onClick={copyToClipboard}>Copy to Clipboard</button>
+						<button className="copy-button" onClick={copyToClipboard}>
+							Copy to Clipboard
+						</button>
 					</div>
 				)}
 			</div>

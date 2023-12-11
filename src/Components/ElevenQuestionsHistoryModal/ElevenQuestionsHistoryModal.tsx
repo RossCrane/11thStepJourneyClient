@@ -29,7 +29,9 @@ const ElevenQuestionsHistoryModal: React.FC<
 
 	return (
 		<div className={`question-history-modal ${isOpen ? 'show' : ''}`}>
-			<button onClick={onClose}>Close</button>
+			<button className="close-button" onClick={onClose}>
+				Close
+			</button>
 			<div className="history-content">
 				{Array.isArray(history) &&
 					history.map((entry, index) => (

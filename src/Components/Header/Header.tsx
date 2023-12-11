@@ -3,17 +3,29 @@ import './Styles.css';
 import HeaderAccount from '../HeaderAccount/HeaderAccount';
 import logo from '../../assets/logo.png';
 import Navbar from '../Navbar/Navbar';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 	return (
 		<header className="header-container">
 			<div className="logo-title-nav-container">
 				<div className="logo-title-container">
-					<img className="logo" src={logo} alt="" />
-					<div className="header-title">
-						11th Step
-						<br />
-						Journey
+					<div className="tooltip-container">
+						<Link to={'/'}>
+							<img className="logo" src={logo} alt="Home" />
+							<span className="tooltip-text">Home</span>
+						</Link>
+					</div>
+
+					<div className="tooltip-container">
+						<Link to={'/'} className="header-title-link">
+							<div className="header-title">
+								11th Step
+								<br />
+								Journey
+							</div>
+							{/* <span className="tooltip-text">Home</span> */}
+						</Link>
 					</div>
 				</div>
 				<Navbar />
@@ -24,3 +36,10 @@ const Header = () => {
 };
 
 export default Header;
+
+// <div className="tooltip-container">
+// 	<Link to={'/chat'}>
+// 		<img className="icons" src={message_icon} alt="chat" />
+// 		<span className="tooltip-text">{'Chat'}</span>
+// 	</Link>
+// </div>;

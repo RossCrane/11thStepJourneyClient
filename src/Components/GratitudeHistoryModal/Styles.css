@@ -1,4 +1,4 @@
-.gratitude-history-modal {
+/* .gratitude-history-modal {
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -7,7 +7,38 @@
 	padding: 20px;
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	display: none; /* Initially hidden */
+	display: none;
+} */
+
+.gratitude-history-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	color: black;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	display: none;
+	max-height: 60vh;
+	overflow-y: auto;
+	width: 20%;
+}
+
+.close-button {
+	background-color: #3a9d9a;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.close-button:hover {
+	background-color: #357f7c;
 }
 
 .gratitude-entry {
