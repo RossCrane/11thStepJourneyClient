@@ -9,7 +9,6 @@ interface RegisterResponse {
 	token: string;
 }
 
-// change any later
 const apiServiceJWT = {
 	register: async (user: any): Promise<RegisterResponse> => {
 		try {
@@ -34,7 +33,6 @@ const apiServiceJWT = {
 		}
 	},
 
-	// change any later
 	login: async (user: any) => {
 		try {
 			const response = await fetch(`${BASE_URL}/login`, {
@@ -71,18 +69,6 @@ const apiServiceJWT = {
 
 	logout: (tokenName: string) => {
 		localStorage.removeItem(tokenName);
-		// the following request should invalidate the token
-		// return fetch(`${BASE_URL}/logout`, {
-		//   method: 'POST',
-		//   credentials: 'include',
-		//   mode: 'cors',
-		//   headers: {
-		//     'Content-Type': 'application/json',
-		//     Authorization: `Bearer ${tokenName}`,
-		//   },
-		// })
-		//   .then((res) => res.json())
-		//   .catch((err) => console.log(err));
 	},
 };
 

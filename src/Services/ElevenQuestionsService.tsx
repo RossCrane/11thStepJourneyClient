@@ -1,5 +1,3 @@
-import { toast } from 'react-toastify';
-
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 if (!BASE_URL) {
 	throw new Error('Missing Server URL');
@@ -17,7 +15,7 @@ interface ElevenQuestionsHistoryEntry {
 	userId: string;
 	responses: QuestionResponse[];
 	date: string;
-	__v: number; // Version key, if not needed, can be omitted
+	__v: number;
 }
 
 interface ElevenQuestionsHistoryResponse {

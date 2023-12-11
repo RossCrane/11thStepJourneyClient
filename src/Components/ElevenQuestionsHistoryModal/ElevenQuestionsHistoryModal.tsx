@@ -21,7 +21,6 @@ interface ElevenQuestionsHistoryModalProps {
 const ElevenQuestionsHistoryModal: React.FC<
 	ElevenQuestionsHistoryModalProps
 > = ({ isOpen, onClose, history }) => {
-	// Function to find the question text by ID
 	const findQuestionById = (id: number) => {
 		const question = elevenQuestionsTemplate.find((q) => q.id === id);
 		return question ? question.question : 'Unknown Question';
@@ -45,7 +44,6 @@ const ElevenQuestionsHistoryModal: React.FC<
 										<div className="question">
 											{findQuestionById(response.questionNumber)}
 										</div>
-										{/* might want to change how this looks later */}
 										<div className="answer">Answer: {response.response}</div>
 									</div>
 								))}

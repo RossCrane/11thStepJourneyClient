@@ -60,18 +60,13 @@ function LoginRegister() {
 				email: loginForm.loginEmail,
 				password: loginForm.loginPassword,
 			});
-			// console.log('response', response);
 			auth.login(response.token, response.user, () => {
-				// console.log('Logged in successfully');
 				navigate('/');
 				toast.success('Logged in successfully');
 			});
 		} catch (error) {
-			// console.error('Login failed:', error);
-			// Change error to error.message if this looks bad the fix TS error
 			toast.error('Login failed: ' + error);
 		}
-		// console.log('Login form submitted:', loginForm);
 	};
 
 	const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,7 +97,6 @@ function LoginRegister() {
 			});
 			if (response.token) {
 				auth.login(response.token, () => {
-					// console.log('Registered and logged in successfully');
 					toast.success('Registered and logged in successfully');
 					navigate('/');
 				});
@@ -110,11 +104,8 @@ function LoginRegister() {
 				toast.error('Registration failed: Token not provided');
 			}
 		} catch (error) {
-			// console.error('Registration failed:', error);
-			// Change error to error.message if this looks bad the fix TS error
 			toast.error('Registration failed: ' + error);
 		}
-		// console.log('Register form submitted:', registerForm);
 	};
 
 	const validateEmail = (email: string) => {
@@ -153,7 +144,6 @@ function LoginRegister() {
 					onChange={handleRegisterChange}
 					required
 				/>
-				{/* add toastify here */}
 				{registerForm.passwordError && (
 					<p className="error">{registerForm.passwordError}</p>
 				)}

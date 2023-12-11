@@ -23,24 +23,18 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 }) => {
 	const [userChats, setUserChats] = useState<Chat[] | null>(null);
 	const [isUserChatsLoading, setIsUserChatsLoading] = useState<boolean>(false);
-	const [userChatsError, setUserChatsError] = useState<any>(null); // review later
+	const [userChatsError, setUserChatsError] = useState<any>(null);
 	const [potentialChats, setPotentialChats] = useState<User[]>([]);
 	const [currentChat, setCurrentChat] = useState<Chat | null>(null);
 	const [messages, setMessages] = useState<Message[] | null>(null);
 	const [isMessagesLoading, setIsMessagesLoading] = useState<boolean>(false);
-	const [messagesError, setMessagesError] = useState<any>(null); // review later
-	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null); // review later
-	const [newMessage, setNewMessage] = useState<Message | null>(null); // review later
+	const [messagesError, setMessagesError] = useState<any>(null);
+	const [sendTextMessageError, setSendTextMessageError] = useState<any>(null);
+	const [newMessage, setNewMessage] = useState<Message | null>(null);
 	const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
 	const [notifications, setNotifications] = useState<Message[] | null>([]);
-	// review later
 	const [allUsers, setAllUsers] = useState<User[]>([]);
 
-	// useEffect(() => {
-	// 	const socket = io(`${SOCKET_URL}`);
-	// }, []);
-
-	// add user to online users
 	useEffect(() => {
 		if (socket === null) return;
 		socket.emit('addNewUser', user?._id);
@@ -52,16 +46,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		};
 	}, [socket]);
 
-	// send message
-	// useEffect(() => {
-	// 	if (socket === null) return;
-
-	// 	const recipientId = currentChat?.members.find((id) => id !== user?.id);
-
-	// 	socket.emit('sendMessage', { ...newMessage, recipientId });
-	// }, [newMessage]);
-
-	// receive message and notifications
 	useEffect(() => {
 		if (socket === null) return;
 
@@ -71,7 +55,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 			console.log('res.recipientId', res.recipientId, 'user._id', user._id);
 			if (res.recipientId !== user._id) return;
 
-			// here add more that just text
 			setMessages((prev) => [...(prev || []), { text: res.textMessage }]);
 		});
 
@@ -103,15 +86,12 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				if (user?._id === u._id) return false;
 
 				if (userChats) {
-					// douple check this logic particularly some
 					isChatCreated = userChats?.some((chat) => {
 						return chat.members[0] === u._id || chat.members[1] === u._id;
 					});
 				}
-				//
 				return !isChatCreated;
 			});
-			// console.log('pChats', pChats);
 			setPotentialChats(pChats);
 			setAllUsers(response);
 		};
@@ -123,7 +103,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 			if (user?._id) {
 				setIsUserChatsLoading(true);
 				setUserChatsError(null);
-				// might need to change the url
 				const response = await getRequest(`${BASE_URL}/userChats/${user._id}`);
 				setIsUserChatsLoading(false);
 
@@ -140,7 +119,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		const getMessages = async () => {
 			setIsMessagesLoading(true);
 			setMessagesError(null);
-			// might need to change the url
+
 			const response = await getRequest(
 				`${BASE_URL}/messages/${currentChat?._id}`
 			);
@@ -168,8 +147,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 		) => {
 			if (!textMessage) return console.log(`No message to send`);
 
-			console.log('currentChatId', currentChatId, 'sender', sender);
-
 			const response = await postRequest(`/message`, {
 				chatId: currentChatId,
 				senderId: sender._id,
@@ -180,44 +157,26 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				return setSendTextMessageError(response);
 			}
 
-			// if (socket === null) return;
-
-			// const recipientId = currentChat?.members.find((id) => id !== user?.id);
-			console.log('recipientId', recipientId, 'currentchat', currentChat);
-
-			socket.emit('sendMessage', { textMessage, recipientId });
-
-			// socket.emit('sendMessage', {
-			// 	chatId: currentChatId,
-			// 	senderId: sender._id,
-			// 	text: textMessage,
-			// });
-
-			// handle with message.length
-			setNewMessage(response as Message); // review later
+			setNewMessage(response as Message);
 			setMessages(
 				(prevMessages) => [...(prevMessages || []), response] as Message[]
-			); // review later
+			);
 			setTextMessage('');
 		},
 		[]
 	);
 
 	const createChat = useCallback(async (firstId: string, secondId: string) => {
-		const response = await postRequest(
-			// `${BASE_URL}/chats`,
-			`/chat`,
-			{
-				firstId,
-				secondId,
-			}
-		);
+		const response = await postRequest(`/chat`, {
+			firstId,
+			secondId,
+		});
 
 		if (response.error) {
 			return console.log(`Error creating chat: `, response);
 		}
 
-		setUserChats((prevChats) => [...(prevChats || []), response] as Chat[]); // review later
+		setUserChats((prevChats) => [...(prevChats || []), response] as Chat[]);
 	}, []);
 
 	const markAllNotificationsAsRead = useCallback((notifications) => {
@@ -230,8 +189,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 	const markNotificationAsRead = useCallback(
 		(n, userChats, user, notifications) => {
-			// find chat to open
-
 			const disiredChat = userChats.find((chat) => {
 				const chatMembers = [user._id, n.senderId];
 				const isDesiredChat = chat?.members.every((member) => {
@@ -239,7 +196,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 				});
 				return isDesiredChat;
 			});
-			// mark notification as read
+
 			const mNotifications = notifications.map((el) => {
 				if (n.senderId === el.senderId) {
 					return { ...n, isRead: true };
@@ -255,7 +212,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
 
 	const markThisUserNotificationsAsRead = useCallback(
 		(thisUserNotifications, notifications) => {
-			// mark notification as read
 			const mNotifications = notifications.map((el) => {
 				let notification;
 

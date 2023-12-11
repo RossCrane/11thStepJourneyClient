@@ -11,8 +11,6 @@ const Accordion: React.FC<IAccordionProps> = ({ title, prayer }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleAccordion = () => {
-		// Learn to recognize this pattern and change it to the one below.
-		// setIsOpen(!isOpen);
 		setIsOpen((currOpen) => !currOpen);
 	};
 
@@ -20,7 +18,6 @@ const Accordion: React.FC<IAccordionProps> = ({ title, prayer }) => {
 		<div className="accordion">
 			<div className="accordion-title" onClick={toggleAccordion}>
 				<h3 className="accortian-title-text">{title}</h3>
-				{/* <span>{isOpen ? '-' : '+'}</span> */}
 			</div>
 			{isOpen && <div className="accordion-content">{prayer}</div>}
 		</div>

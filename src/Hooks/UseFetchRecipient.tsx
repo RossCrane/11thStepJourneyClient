@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { BASE_URL, getRequest } from '../Services/MessageService';
 
-// fix later
 interface Chat {
-	members: string[]; // Adjust
+	members: string[];
 }
 
 interface User {
-	id: string; // Adjust
+	id: string;
 }
 
 export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
@@ -15,11 +14,10 @@ export const useFetchRecipientUser = (chat: Chat | null, user: User | null) => {
 	const [error, setError] = useState<any>(null);
 
 	const recipientId = chat?.members.find((id) => id !== user?.id);
-	// console.log(recipientId, 'recipientId here');
+
 	useEffect(() => {
 		const getUser = async () => {
 			if (!recipientId) return null;
-			// const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
 			const response = await getRequest(`${BASE_URL}/users`);
 
 			if (response.error) {

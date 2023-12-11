@@ -64,7 +64,6 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 				}
 			} catch (error) {
 				toast.error('Error fetching user profile.');
-				// console.error('Error fetching user profile:', error);
 			}
 		};
 
@@ -113,11 +112,9 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 
 			await updateUserProfile(formattedData);
 			toast.success('Profile updated successfully');
-			// console.log('Profile updated successfully');
-			onSave(formattedData); // Notify parent component about the update
+			onSave(formattedData);
 		} catch (error) {
 			toast.error('Error updating profile.');
-			// console.error('Error updating profile:', error);
 		}
 	};
 
@@ -162,17 +159,7 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 								className="form-control"
 							/>
 						</div>
-						{/* <div className="form-group">
-							<label htmlFor="email">Email:</label>
-							<input
-								type="email"
-								id="email"
-								name="email"
-								value={formData.email}
-								readOnly // Email will be pulled from context or store
-								className="form-control"
-							/>
-						</div> */}
+
 						<div className="form-group">
 							<label htmlFor="phoneNumber">Phone Number (optional):</label>
 							<input
@@ -275,7 +262,6 @@ const ProfileForm: React.FC<IProfileProps> = ({ onSave }) => {
 		} else {
 			return (
 				<div>
-					{/* Display the user's information in a non-editable format */}
 					<p>First Name: {formData.firstName || 'Not provided'}</p>
 					<p>Last Name: {formData.lastName || 'Not provided'}</p>
 					<p>Email: {formData.email || 'Not provided'}</p>

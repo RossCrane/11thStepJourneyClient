@@ -1,4 +1,3 @@
-import React from 'react';
 import './Styles.css';
 import HeaderAccount from '../HeaderAccount/HeaderAccount';
 import logo from '../../assets/logo.png';
@@ -24,7 +23,6 @@ const Header = () => {
 								<br />
 								Journey
 							</div>
-							{/* <span className="tooltip-text">Home</span> */}
 						</Link>
 					</div>
 				</div>
@@ -36,10 +34,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// <div className="tooltip-container">
-// 	<Link to={'/chat'}>
-// 		<img className="icons" src={message_icon} alt="chat" />
-// 		<span className="tooltip-text">{'Chat'}</span>
-// 	</Link>
-// </div>;

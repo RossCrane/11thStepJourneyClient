@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-// import { AuthProvider } from './Context/AuthContext';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import { ElevenQuestionsForm } from './Components/ElevenQuestionsForm/ElevenQuestionsForm';
@@ -18,11 +17,7 @@ import { useAuth } from './Context/AuthContext';
 import Chats from './Components/Chats/Chats';
 import { ChatProvider } from './Context/ChatContext';
 
-// import NotificationModal from './Components/NotificationModal/NotificationModal';
-
-const handleStepFormSubmit = (formData: any) => {
-	// console.log(formData, 'form data here after submission');
-};
+const handleStepFormSubmit = (formData: any) => {};
 
 const App: React.FC = () => {
 	const { authenticated, user } = useAuth();
@@ -44,7 +39,6 @@ const App: React.FC = () => {
 	};
 
 	const onSave = (formData: any) => {
-		// Implement the logic to save the form data to the backend
 		console.log(formData);
 	};
 	return (
@@ -64,7 +58,6 @@ const App: React.FC = () => {
 							}
 						/>
 						<Route path="/login" element={<LoginRegister />} />
-						{/* Should be a protected route */}
 						<Route
 							path="/account"
 							element={
@@ -79,20 +72,14 @@ const App: React.FC = () => {
 							path="/chat"
 							element={authenticated ? <Chats /> : <LoginRegister />}
 						/>
-						{/* For testing purposes */}
 						<Route path="/chat" element={<Chats />} />
-						{/* end testing purposes */}
 						<Route path="/prayers" element={<Prayers />} />
 						<Route path="/uponawakening" element={<UponAwakening />} />
 						<Route
 							path="/sobrietycalculator"
 							element={<SobrietyCalculator />}
 						/>
-						<Route
-							path="/creategratitude"
-							element={<GratitudeList />}
-							// onSave={handleGratitudeSave}
-						/>
+						<Route path="/creategratitude" element={<GratitudeList />} />
 					</Routes>
 				</div>
 				<Footer />
@@ -102,44 +89,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// For NotificationModal
-
-/* <NotificationModal
-					isOpen={true}
-					onClose={() => console.log('close')}
-					announcements={['Announcement 1', 'Announcement 2']}
-				/> */
-
-{
-	/* <Routes>
-	<Route
-		path="/"
-		element={
-			<ElevenQuestionsForm
-				handleStepFormSubmit={handleStepFormSubmit}
-				steps={elevenQuestionsTemplate}
-			/>
-		}
-	/>
-	<Route path="/login" element={<LoginRegister />} />
-	<Route
-		path="/account"
-		element={
-			authenticated ? (
-				<ProfileForm profileData={profileData} onSave={onSave} />
-				) : (
-					<LoginRegister />
-					)
-				}
-				/>
-	<Route path="/prayers" element={<Prayers />} />
-	<Route path="/uponawakening" element={<UponAwakening />} />
-	<Route path="/sobrietycalculator" element={<SobrietyCalculator />} />
-	<Route path="/creategratitude" element={<GratitudeList />} />
-</Routes>; */
-}
-{
-	/* Should be a protected route */
-}
-// onSave={handleGratitudeSave}

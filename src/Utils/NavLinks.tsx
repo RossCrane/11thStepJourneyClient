@@ -6,7 +6,7 @@ import gratitude from '../assets/gratitude.svg';
 interface INavLinks {
 	id: number;
 	to: string;
-	icon: string; // could be File or HTMLImageElement
+	icon: string;
 	text: string;
 }
 export const links: INavLinks[] = [
@@ -24,5 +24,4 @@ export const links: INavLinks[] = [
 		icon: gratitude,
 		text: 'Create Gratitude List',
 	},
-	//{ id: 5, to: '/contact', icon: 'envelope', text: 'Contact' },
 ];

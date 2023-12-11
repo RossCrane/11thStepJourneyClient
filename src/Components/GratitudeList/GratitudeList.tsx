@@ -43,11 +43,9 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 					setHistory(response.data);
 					toast.success('Gratitude history fetched successfully!');
 				} else {
-					// console.error('Failed to fetch gratitude history');
 					toast.error('Failed to fetch gratitude history.');
 				}
 			} catch (error) {
-				// console.error('Error fetching gratitude history:', error);
 				toast.error('Error fetching gratitude history.');
 			}
 		}
@@ -81,13 +79,11 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 				gratitude,
 			}));
 
-		// add tostify here.
 		try {
 			const savedEntry = await createGratitudeEntry(formattedItems);
-			// console.log('Gratitude Entry Saved:', savedEntry);
+
 			toast.success('Gratitude entry saved successfully!');
 		} catch (error) {
-			// console.error('Error saving gratitude entry:', error);
 			toast.error('Error saving gratitude entry.');
 		}
 	};
@@ -115,11 +111,9 @@ const GratitudeList: React.FC<IGratitudeListProps> = ({ onSave }) => {
 		const textToCopy = formatGratitudesForClipboard();
 		navigator.clipboard.writeText(textToCopy).then(
 			() => {
-				// console.log('Current gratitudes copied to clipboard successfully.');
 				toast.success('Gratitudes copied to clipboard!');
 			},
 			(err) => {
-				// console.error('Could not copy text: ', err);
 				toast.error('Failed to copy gratitudes.');
 			}
 		);

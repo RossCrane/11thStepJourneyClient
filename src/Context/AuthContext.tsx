@@ -8,7 +8,6 @@ interface User {
 
 interface AuthContextType {
 	authenticated: boolean;
-	// new line
 	user: User | null;
 	login: (token: string, user: User, cb: () => void) => void;
 	logout: (cb: () => void) => void;
@@ -22,7 +21,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
 	const [authenticated, setAuthenticated] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
-	//console.log('user', user);
 
 	useEffect(() => {
 		const checkAuthentication = async () => {
@@ -49,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const login = (token: string, user: User, cb: () => void) => {
 		localStorage.setItem('token', token);
-		// new line
+
 		setUser(user);
 		setAuthenticated(true);
 		cb();
@@ -57,13 +55,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const logout = (cb: () => void) => {
 		localStorage.removeItem('token');
-		// new line
+
 		setUser(null);
 		setAuthenticated(false);
 		cb();
 	};
 
-	// added user to the value
 	return (
 		<AuthContext.Provider
 			value={{ authenticated, user, login, logout, setAuthenticated }}

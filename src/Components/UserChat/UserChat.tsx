@@ -20,7 +20,7 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 	const validChat = chat && Array.isArray(chat.members) ? chat : null;
 
 	const { recipientUser } = useFetchRecipientUser(validChat, user);
-	//const { recipientUser } = useFetchRecipientUser(chat, user);
+
 	const {
 		onlineUsers,
 		notifications,
@@ -68,16 +68,11 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 					return response;
 				}
 
-				// updateCurrentChat(
-				// 	response.find((chatRes) => chatRes.chatId === chat._id)
-				// );
 				setCurrentChat(response.find((chatRes) => chatRes.chatId === chat._id));
 			}
 		};
 		getUserChats();
 	}, []);
-
-	// console.log('userChats', userChats);
 
 	return (
 		<div>
@@ -86,9 +81,9 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 				gap={3}
 				sx={{
 					alignItems: 'center',
-					cursor: 'pointer', // Default cursor style
+					cursor: 'pointer',
 					'&:hover': {
-						cursor: 'pointer', // Cursor style on hover
+						cursor: 'pointer',
 					},
 				}}
 				className="user-card"
@@ -99,7 +94,6 @@ const UserChat: React.FC<UserChatProps> = ({ chat, user }) => {
 			>
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
 					<Box sx={{ marginRight: 2 }}>
-						{/* Import an image here */}
 						<img src={defaultProfileIcon} alt="Placeholder" height="40px" />
 					</Box>
 					<Box className="text-content">

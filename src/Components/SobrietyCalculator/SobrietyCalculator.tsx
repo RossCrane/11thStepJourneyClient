@@ -39,7 +39,7 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 		const newDate = e.target.value;
 		setInputDate(newDate);
 		if (onDateChange) {
-			onDateChange(newDate); // Notify the parent component of the date change
+			onDateChange(newDate);
 		}
 	};
 
@@ -48,15 +48,12 @@ const SobrietyCalculator: React.FC<ISobrietyCalculatorProps> = ({
 			if (inputDate) {
 				const response = await saveSoberDate(inputDate);
 				toast.success('Sober date saved successfully!');
-				// console.log('Sober date saved:', response);
 			} else {
 				toast.error('No date selected.');
-				// console.error('No date selected');
 			}
 		} catch (error) {
 			toast.error('Error saving sober date.');
 			console.error('Error saving sober date:', error);
-			// Handle errors, possibly show an error message to the user
 		}
 	};
 

@@ -1,15 +1,3 @@
-/* .gratitude-history-modal {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: white;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	display: none;
-} */
-
 .gratitude-history-modal {
 	position: fixed;
 	top: 50%;
@@ -42,11 +30,11 @@
 }
 
 .gratitude-entry {
-	margin-bottom: 1rem; /* Adds space between different dates */
+	margin-bottom: 1rem;
 }
 
 .gratitude-item {
-	margin: 0.5rem 0; /* Controls vertical space between individual gratitude items */
+	margin: 0.5rem 0;
 }
 
 .gratitude-history-modal.show {

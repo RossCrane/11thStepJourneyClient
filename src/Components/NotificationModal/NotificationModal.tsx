@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Styles.css'; // Import your CSS file
+import React from 'react';
+import './Styles.css';
 
 interface NotificationModalProps {
 	isOpen: boolean;

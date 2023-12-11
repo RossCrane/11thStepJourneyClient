@@ -23,7 +23,6 @@ const GratitudeHistoryModal: React.FC<GratitudeHistoryModalProps> = ({
 	onClose,
 	history,
 }) => {
-	// Function to group gratitudes by date
 	const groupByDate = (entries: GratitudeHistoryEntry[]) => {
 		return entries.reduce((acc, entry) => {
 			const dateKey = new Date(entry.date).toLocaleDateString();

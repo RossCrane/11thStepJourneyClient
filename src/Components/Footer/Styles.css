@@ -1,39 +1,3 @@
-/* FILEPATH: /C:/Users/dylan/OneDrive/Desktop/Codeworks/Senior/Project/thesis_project/11thStepJourney/11thStepJourneyClient/src/Components/Footer/Styles.css */
-
-/* Old code */
-/* .footer-container {
-	box-sizing: border-box;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: transparent;
-	padding: 10px 1.5em;
-	position: relative;
-	height: 3vh;
-	max-width: 100%;
-	border: gray 1px solid;
-	position: sticky;
-}
-
-.copyright {
-	display: flex;
-}
-
-.footer-links {
-	display: flex;
-	gap: 10px;
-}
-
-.footer-links a {
-	color: white;
-	text-decoration: none;
-}
-
-.footer-links a:hover {
-	text-decoration: underline;
-} */
-
-/* new code */
 .footer-container {
 	box-sizing: border-box;
 	display: flex;
@@ -45,7 +9,7 @@
 	height: 3vh;
 	max-width: 100%;
 	border-radius: 13px;
-	/* border: blue 1px solid; */
+
 	position: sticky;
 }
 .copyright {

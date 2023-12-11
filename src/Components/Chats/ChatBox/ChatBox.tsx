@@ -2,35 +2,27 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Styles.css';
 import { useAuth } from '../../../Context/AuthContext';
 import { ChatContext } from '../../../Context/ChatContext';
-import { useFetchRecipientUser } from '../../../Hooks/UseFetchRecipient';
+
 import { Stack } from '@mui/material';
 import moment from 'moment';
 import InputEmoji from 'react-input-emoji';
 import { BASE_URL, getRequest } from '../../../Services/MessageService';
-// import SendIcon from '@mui/icons-material/Send';
 
-interface ChatBoxProps {
-	// Define props here
-}
+interface ChatBoxProps {}
 
 const ChatBox: React.FC<ChatBoxProps> = () => {
-	const { user } = useAuth() as any; // Replace 'any' with the actual type
+	const { user } = useAuth() as any;
 	const {
 		currentChat,
 		messages,
 		newMessage,
 		isMessagesLoading,
 		sendTextMessage,
-		socket,
-		// messagesError,
-	} = useContext(ChatContext) as any; // Replace 'any' with the actual type
+	} = useContext(ChatContext) as any;
 
-	// console.log(messages, 'messages here');
-	//console.log(currentChat, 'current chat here');
-	//console.log(user, 'user here');
 	const [textMessage, setTextMessage] = useState<string>('');
 	const scroll = useRef<HTMLDivElement>(null);
-	// const [recipientId, setRecipientId] = useState<string | null>(null);
+
 	const [recipientUser, setRecipientUser] = useState<any>(null);
 	const [recipientId, setRecipientId] = useState<string | null>(null);
 
@@ -45,7 +37,6 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 		console.log('user in chatbox', user?._id);
 
 		const response = await getRequest(`${BASE_URL}/userChats/${recipientId}`);
-		// console.log(response, 'response here');
 
 		if (response.error) {
 			return console.log('error getting user');
@@ -130,7 +121,6 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 					/>
 					<button className="send-btn" onClick={handleSendMessage}>
 						Send
-						{/* <SendIcon /> */}
 					</button>
 				</Stack>
 			</Stack>
@@ -139,14 +129,3 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
 };
 
 export default ChatBox;
-
-{
-	/* <Stack
-	key={index}
-	className={`${
-		message?.senderId === user?._id
-			? 'message self align-self-end flex-grow-0'
-			: 'message align-self-end flex-grow-0'
-	}`}
-></Stack>; */
-}

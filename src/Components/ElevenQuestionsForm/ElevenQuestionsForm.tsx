@@ -75,17 +75,14 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		if (!isModalOpen) {
 			try {
 				const response = await fetchElevenQuestionsHistory();
-				// console.log('Fetched History Data:', response);
 				toast.success('History data fetched successfully!');
 				if (response.success) {
 					setHistory(response.data);
 				} else {
-					// console.error('Failed to fetch question responses history');
 					setHistory([]);
 					toast.error('Failed to fetch question responses history.');
 				}
 			} catch (error) {
-				// console.error('Error fetching question responses history:', error);
 				setHistory([]);
 				toast.error('Error fetching question responses history.');
 			}
@@ -100,11 +97,9 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 			}));
 
 			const response = await submitQuestionResponses(formattedResponses);
-			// console.log('Responses submitted:', response);
 			handleStepFormSubmit?.(formattedResponses);
 			toast.success('Responses submitted successfully.');
 		} catch (error) {
-			// console.error('Error submitting responses:', error);
 			toast.error('Failed to submit responses.');
 		}
 	};
@@ -124,11 +119,9 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 		const textToCopy = formatQuestionsAndAnswers();
 		navigator.clipboard.writeText(textToCopy).then(
 			() => {
-				//console.log('Copied to clipboard successfully.');
 				toast.success('Copied to clipboard successfully.');
 			},
 			(err) => {
-				//console.error('Could not copy text: ', err);
 				toast.error('Failed to copy text.');
 			}
 		);
@@ -146,7 +139,7 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 				onClose={toggleModal}
 				history={history}
 			/>
-			{/* Probably create a card component here instead of this div */}
+
 			<p className="question-text">
 				When we retire at night we constructively review our day.
 			</p>
@@ -156,11 +149,7 @@ export const ElevenQuestionsForm: React.FC<StepFormProps> = ({
 						{line}{' '}
 					</p>
 				))}
-				{/* <input
-					type="text"
-					onChange={handleAnswerChange}
-					value={formState[currentStepIdx].answer}
-				/> */}
+
 				<textarea
 					onChange={handleAnswerChange}
 					onKeyDown={handleKeyDown}

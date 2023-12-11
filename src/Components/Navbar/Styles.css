@@ -17,11 +17,11 @@
 ul {
 	list-style: none;
 	padding: 0;
-	display: flex; /* Display list items horizontally */
+	display: flex;
 }
 
 li {
-	margin-right: 20px; /* Add some space between items */
+	margin-right: 20px;
 }
 
 .tooltip-container {
@@ -30,25 +30,20 @@ li {
 }
 
 .icons {
-	max-width: 100px; /* Adjust the maximum width of icons as needed */
+	max-width: 100px;
 }
 
 .tooltip-text {
 	visibility: hidden;
 	width: auto;
-	background-color: rgba(
-		0,
-		0,
-		0,
-		0.8
-	); /* Customize the tooltip background color */
-	color: white; /* Customize the tooltip text color */
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
 	text-align: center;
-	border-radius: 5px; /* Add rounded corners to the tooltip */
-	padding: 5px 10px; /* Add padding to the tooltip */
+	border-radius: 5px;
+	padding: 5px 10px;
 	position: absolute;
 	z-index: 1;
-	bottom: -30px; /* Adjust the distance from the icon (e.g., -30px or as needed) */
+	bottom: -30px;
 	left: 50%;
 	transform: translateX(-50%);
 	white-space: nowrap;

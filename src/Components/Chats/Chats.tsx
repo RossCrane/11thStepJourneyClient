@@ -7,38 +7,16 @@ import { useAuth } from '../../Context/AuthContext';
 import PotentialChats from './PotentialChats/PotentialChats';
 import ChatBox from './ChatBox/ChatBox';
 
-import { ChatContextType, Chat, User, Message } from '../../Types/Types';
-
-// Assuming you have defined these types
-// interface User {
-// 	_id: string;
-// 	// other properties
-// }
-
-// interface Chat {
-// 	// properties of a chat
-// }
-
-// // Assuming the ChatContext provides these types
-// interface ChatContextType {
-// 	userChats: Chat[] | null;
-// 	isUserChatsLoading: boolean;
-// 	userChatsError: any; // Replace 'any' with a more specific error type
-// 	updateCurrentChat: (chat: Chat) => void;
-// }
+import { ChatContextType, Chat, User } from '../../Types/Types';
 
 const Chats: React.FC = () => {
-	const { user } = useAuth() as { user: User | null }; // review later
+	const { user } = useAuth() as { user: User | null };
 	const { userChats, isUserChatsLoading, userChatsError, updateCurrentChat } =
 		useContext(ChatContext) as ChatContextType;
 
 	if (!ChatContext) {
-		// Handle the case when chatContext is null
 		return <div>No chat context available</div>;
 	}
-
-	// console.log(userChats, 'user chats here');
-	// console.log('chat here', chat);
 
 	const handleChatClick = (chat: Chat) => {
 		if (chat) {
@@ -75,25 +53,3 @@ const Chats: React.FC = () => {
 };
 
 export default Chats;
-// 	<div>
-// 		<Container>
-// 			{userChats?.length < 1 ? null : (
-// 				<Stack direction="horizontal" gap={4}>
-// 					<Stack className="messages-box flex-grow-0 pe-3" gap={3}>
-// 						{isUserChatsLoading && <p>Loading...</p>}
-// 						{userChats?.map((chat: any, index: number) => {
-// 							return (
-// 								<div key={index}>
-// 									<UserChat chat={chat} user={user} />
-// 								</div>
-// 							);
-// 						})}
-// 						List
-// 					</Stack>
-// 					<p>Chats</p>
-// 				</Stack>
-// 			)}
-// 		</Container>
-// 	</div>
-// );
-//};

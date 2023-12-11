@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
-import apiServiceJWT from '../../Services/AuthenticationService';
 import './Styles.css';
 import bell from '../../assets/bell.svg';
 import loginIcon from '../../assets/loginicon.svg';
@@ -11,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../../Context/ChatContext';
 import { unreadNotificationsFunc } from '../../Utils/UnreadNotifications';
 import moment from 'moment';
-// import { toast } from 'react-toastify';
 
 const HeaderAccount: React.FC = () => {
 	const { authenticated, logout, user } = useAuth();
@@ -47,7 +45,6 @@ const HeaderAccount: React.FC = () => {
 	return (
 		<div className="account-container">
 			<ul>
-				{/* Always display the bell icon */}
 				<li>
 					<div className="tooltip-container">
 						<img
@@ -105,8 +102,6 @@ const HeaderAccount: React.FC = () => {
 						</div>
 					) : null}
 				</li>
-
-				{/* Display Account Details link based on isLoggedIn */}
 				{authenticated && (
 					<li>
 						<div className="tooltip-container">
@@ -121,8 +116,6 @@ const HeaderAccount: React.FC = () => {
 						</div>
 					</li>
 				)}
-
-				{/* Display Log Out link based on isLoggedIn */}
 				{authenticated && (
 					<li>
 						<div className="tooltip-container">
@@ -133,8 +126,6 @@ const HeaderAccount: React.FC = () => {
 						</div>
 					</li>
 				)}
-
-				{/* Display Log In link based on isLoggedIn */}
 				{!authenticated && (
 					<li>
 						<div className="tooltip-container">

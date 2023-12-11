@@ -1,14 +1,14 @@
 export interface ChatContextType {
 	userChats: Chat[] | null;
 	isUserChatsLoading: boolean;
-	userChatsError: any; // review later
-	potentialChats: User[]; // review later
+	userChatsError: any;
+	potentialChats: User[];
 	createChat: (firstId: string, secondId: string) => void;
 	updateCurrentChat: (chat: Chat) => void;
 	currentChat: Chat | null;
-	messages: Message[] | null; // review later
+	messages: Message[] | null;
 	isMessagesLoading: boolean;
-	messagesError: any; // review later
+	messagesError: any;
 	sendTextMessage: (
 		textMessage: string,
 		sender: User,
@@ -30,26 +30,20 @@ export interface User {
 	_id: string;
 	id?: string;
 	firstname?: string;
-	// review later
 }
 
 export interface Chat {
 	_id: string;
 	members: string[];
 	firstname?: string;
-	// review later
 }
 
 export interface Message {
 	text: string;
 	senderId: string;
 	createdAt: string;
-	// review later
 }
 
-//Socket.io
-
-// this was imported from socket.io-client not sure why they did not provide a Buffer type
 export interface ServerToClientEvents {
 	noArg: () => void;
 	basicEmit: (a: number, b: string, c: Buffer) => void;
